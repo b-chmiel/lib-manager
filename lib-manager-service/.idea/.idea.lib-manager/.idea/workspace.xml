@@ -4,7 +4,10 @@
     <projectFile>lib-manager.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a8c6f18c-8f71-43a9-8c55-598e0bbb3451" name="Default Changelist" comment="" />
+    <list default="true" id="a8c6f18c-8f71-43a9-8c55-598e0bbb3451" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.dockerignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/../Dockerfile" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -100,7 +103,7 @@
       <updated>1616262852790</updated>
       <workItem from="1616262884188" duration="3730000" />
       <workItem from="1616880133966" duration="1557000" />
-      <workItem from="1616882581767" duration="28000" />
+      <workItem from="1616882581767" duration="761000" />
     </task>
     <servers />
   </component>

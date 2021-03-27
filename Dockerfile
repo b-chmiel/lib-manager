@@ -6,6 +6,7 @@ RUN dotnet restore
 
 
 COPY lib-manager-service/ ./
+COPY lib-manager-ui/ ./ClientApp
 RUN apt-get -y install curl
 RUN curl -sL https://deb.nodesource.com/setup_14.x  | bash -
 RUN apt-get -y install nodejs 

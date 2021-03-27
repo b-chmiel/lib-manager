@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "/home/incvis/.dotnet/store/|arch|/|tfm|",
-      "/home/incvis/.nuget/packages"
-    ]
-  }
-}

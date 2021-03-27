@@ -2,4 +2,6 @@ lib-manager-service/ClientApp/node_modules/
 lib-manager-service/ClientApp/build/
 lib-manager-service/bin/
 lib-manager-service/obj/
+lib-manager-tests/bin/
+lib-manager-tests/obj/
 

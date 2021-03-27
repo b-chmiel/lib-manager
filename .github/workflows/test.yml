@@ -23,15 +23,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-      - name: npm ci and npm run build
+      - name: npm ci and test
         run: |
-          cd ClientApp
+          cd lib-manager-ui
           npm ci
           npm test
-          npm run build
       - name: Restore .net packages
-        run: dotnet restore
-      - name: Build app
-        run: dotnet build --configuration Release --no-restore
+        run: |
+          cd lib-manager-tests
+          dotnet restore
       - name: Test app
-        run: dotnet test
+        run: |
+          cp -R lib-manager-ui/ lib-manager-service/ClientApp/
+          cd lib-manager-tests
+          dotnet test

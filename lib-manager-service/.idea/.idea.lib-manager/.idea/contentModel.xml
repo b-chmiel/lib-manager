@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.3/extResources" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.cache/JetBrains/Rider2020.3/resharper-host/local/Transient/Rider/v203/SolutionCaches/_lib-manager.565106611.00" t="ExcludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/extensions" t="IncludeRecursive" />
+    <e p="$APPLICATION_CONFIG_DIR$/scratches" t="IncludeRecursive" />
+    <e p="$USER_HOME$/.nuget/packages/microsoft.net.test.sdk/16.5.0/build/netcoreapp2.1" t="Include">
+      <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
+    </e>
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.16.1/build/netcoreapp2.1/NUnit3.TestAdapter.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.16.1/build/netcoreapp2.1/NUnit3.TestAdapter.pdb" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.16.1/build/netcoreapp2.1/nunit.engine.api.dll" t="Include" />
+    <e p="$USER_HOME$/.nuget/packages/nunit3testadapter/3.16.1/build/netcoreapp2.1/nunit.engine.dll" t="Include" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="ClientApp/node_modules/@babel/parser" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@babel/types" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/cache" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/css" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/hash" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/is-prop-valid" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/memoize" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/react" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/serialize" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/sheet" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/styled" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/utils" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@emotion/weak-memoize" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@jest/console" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@jest/environment" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@jest/fake-timers" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@jest/source-map" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@jest/test-result" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@jest/transform" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@jest/types" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@types" t="IncludeRecursive">
+        <e p="babel__generator" t="IncludeRecursive" />
+        <e p="babel__template" t="IncludeRecursive" />
+        <e p="babel__traverse" t="IncludeRecursive" />
+        <e p="history" t="IncludeRecursive" />
+        <e p="istanbul-lib-coverage" t="IncludeRecursive" />
+        <e p="istanbul-lib-report" t="IncludeRecursive" />
+        <e p="minimatch" t="IncludeRecursive" />
+        <e p="node" t="IncludeRecursive" />
+        <e p="prop-types" t="IncludeRecursive" />
+        <e p="react" t="IncludeRecursive" />
+        <e p="react-dom" t="IncludeRecursive" />
+        <e p="react-router" t="IncludeRecursive" />
+        <e p="react-router-dom" t="IncludeRecursive" />
+        <e p="scheduler" t="IncludeRecursive" />
+        <e p="yargs-parser" t="IncludeRecursive" />
+      </e>
+      <e p="ClientApp/node_modules/@typescript-eslint/experimental-utils" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@typescript-eslint/parser" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/@typescript-eslint/typescript-estree" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/aggregate-error" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/ansi-regex" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/arch" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/axios" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/blob-util" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/bootstrap" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/camelcase" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/chalk" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/check-more-types" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/clean-stack" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/cli-table3" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/commander" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/cross-env" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/csstype" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/cypress" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/date-fns" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/dayjs" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/del" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/emoji-regex" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/eslint-config-react-app" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/eslint-plugin-import" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/eslint-plugin-jsx-a11y" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/eslint-plugin-react" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/eventemitter2" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/fast-deep-equal" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/fast-json-stable-stringify" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/formik" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/git-format-staged" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/global-dirs" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/husky" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/indent-string" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/is-docker" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/is-fullwidth-code-point" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/is-installed-globally" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/is-path-cwd" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/is-path-in-cwd" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/is-path-inside" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/is-unicode-supported" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-environment-jsdom-fourteen" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-haste-map" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-message-util" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-mock" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-pnp-resolver" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-regex-util" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-resolve" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-serializer" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-util" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jest-worker" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/jquery" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/lazy-ass" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/log-symbols" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/make-dir" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/merge" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/moment" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/oidc-client" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/open" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/p-map" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/pirates" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/pretty-bytes" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/react" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/react-dom" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/react-fast-compare" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/react-router-bootstrap" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/react-router-dom" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/react-scripts" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/reactstrap" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/rimraf" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/start-server-and-test" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/string-width" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/strip-ansi" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/tiny-warning" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/ts-pnp" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/tslib" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/tsutils" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/typeface-roboto" t="IncludeRecursive" />
+      <e p="ClientApp/node_modules/untildify" t="IncludeRecursive" />
+      <e p="lib-manager.csproj" t="IncludeRecursive" />
+      <e p="lib-manager.sln" t="IncludeFlat" />
+      <e p="packages" t="ExcludeRecursive" />
+    </e>
+    <e p="$PROJECT_DIR$/../lib-manager-tests" t="IncludeRecursive">
+      <e p="WeatherForecastControllerTest.cs" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="lib-manager-tests.csproj" t="IncludeRecursive" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="net5.0" t="Include">
+            <e p="lib-manager-tests.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+    </e>
+  </component>
+</project>

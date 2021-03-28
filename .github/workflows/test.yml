@@ -25,7 +25,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
       - name: npm ci and test
         run: |
-          cd lib-manager-ui
+          cd lib-manager-service/ClientApp
           npm ci
           npm test
       - name: Restore .net packages
@@ -34,6 +34,5 @@ jobs:
           dotnet restore
       - name: Test app
         run: |
-          cp -R lib-manager-ui/ lib-manager-service/ClientApp/
           cd lib-manager-tests
           dotnet test

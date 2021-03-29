@@ -1,19 +1,38 @@
-import React from 'react';
-import { Route } from 'react-router';
-import { Counter } from './components/Counter';
-import { FetchData } from './components/FetchData';
-import { Home } from './components/Home';
-import { Layout } from './components/Layout';
+import * as React from "react"
+import {
+  ChakraProvider,
+  Box,
+  Text,
+  Link,
+  VStack,
+  Code,
+  Grid,
+  theme,
+} from "@chakra-ui/react"
+import { ColorModeSwitcher } from "./ColorModeSwitcher"
+import { Logo } from "./Logo"
 
-
-export const App: React.FC = () => {
-    return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/counter' component={Counter} />
-        <Route path='/fetch-data' component={FetchData} />
-      </Layout>
-    );
-}
-
-export default App;
+export const App = () => (
+  <ChakraProvider theme={theme}>
+    <Box textAlign="center" fontSize="xl">
+      <Grid minH="100vh" p={3}>
+        <ColorModeSwitcher justifySelf="flex-end" />
+        <VStack spacing={8}>
+          <Logo h="40vmin" pointerEvents="none" />
+          <Text>
+            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
+          </Text>
+          <Link
+            color="teal.500"
+            href="https://chakra-ui.com"
+            fontSize="2xl"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn Chakra
+          </Link>
+        </VStack>
+      </Grid>
+    </Box>
+  </ChakraProvider>
+)

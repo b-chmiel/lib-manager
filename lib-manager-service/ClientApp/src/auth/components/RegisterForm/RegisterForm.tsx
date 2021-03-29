@@ -9,17 +9,22 @@ import {
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React from "react";
-import { initialFormValues } from "./LoginForm.constants";
-import { validate } from "./LoginForm.helpers";
-import { LoginFormData } from "./LoginForm.types";
+import { initialFormValues } from "./RegisterForm.constants";
+import { validate } from "./RegisterForm.helpers";
+import { RegisterFormData } from "./RegisterForm.types";
 
-export const LoginForm: React.FC = () => {
+/**
+ * A form to allow registering a new user
+ * @constructor
+ */
+export const RegisterForm: React.FC = () => {
   const handleSubmit = (
-    values: LoginFormData,
-    { setSubmitting }: FormikHelpers<LoginFormData>
+    values: RegisterFormData,
+    { setSubmitting }: FormikHelpers<RegisterFormData>
   ) => {
-    setSubmitting(true);
-    console.log(`username: ${values.username}, password: ${values.password}`);
+    console.log(
+      `username: ${values.username}, password: ${values.password}, confirmPassword: ${values.confirmPassword}`
+    );
     setSubmitting(false);
   };
 
@@ -33,7 +38,7 @@ export const LoginForm: React.FC = () => {
       boxShadow={"lg"}
     >
       <Box textAlign={"center"}>
-        <Heading>Welcome back</Heading>
+        <Heading>Register</Heading>
       </Box>
 
       <Box my={4} mb={0} textAlign={"left"}>
@@ -87,6 +92,23 @@ export const LoginForm: React.FC = () => {
                   <FormErrorMessage>{errors.password}</FormErrorMessage>
                 </FormControl>
 
+                <FormControl
+                  mt={4}
+                  isInvalid={
+                    !!(errors.confirmPassword && touched.confirmPassword)
+                  }
+                >
+                  <FormLabel>Confirm password</FormLabel>
+                  <Input
+                    type={"password"}
+                    placeholder={"********"}
+                    name={"confirmPassword"}
+                    value={values.confirmPassword}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                  />
+                  <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
+                </FormControl>
                 <Button
                   width={"full"}
                   mt={4}
@@ -95,7 +117,7 @@ export const LoginForm: React.FC = () => {
                   isLoading={isSubmitting}
                   onClick={() => handleSubmit()}
                 >
-                  Sign In
+                  Sign up
                 </Button>
               </form>
             );

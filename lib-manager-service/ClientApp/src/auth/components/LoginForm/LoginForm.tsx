@@ -9,19 +9,34 @@ import {
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React from "react";
+import { Routes } from "../../../routing/routes";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { useErrorToast } from "../../hooks/useErrorToast";
+import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
+import {
+  loginAsync,
+  selectAuthError,
+  selectAuthStatus,
+} from "../../state/authSlice";
 import { initialFormValues } from "./LoginForm.constants";
 import { validate } from "./LoginForm.helpers";
 import { LoginFormData } from "./LoginForm.types";
 
 export const LoginForm: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(selectAuthStatus);
+  const authError = useAppSelector(selectAuthError);
+
   const handleSubmit = (
     values: LoginFormData,
     { setSubmitting }: FormikHelpers<LoginFormData>
   ) => {
     setSubmitting(true);
-    console.log(`username: ${values.username}, password: ${values.password}`);
-    setSubmitting(false);
+    dispatch(loginAsync(values)).then(() => setSubmitting(false));
   };
+
+  useErrorToast("Login error.", authError);
+  useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 
   return (
     <Box
@@ -90,7 +105,6 @@ export const LoginForm: React.FC = () => {
                 <Button
                   width={"full"}
                   mt={4}
-                  type={"submit"}
                   isDisabled={isSubmitting || !isValid}
                   isLoading={isSubmitting}
                   onClick={() => handleSubmit()}

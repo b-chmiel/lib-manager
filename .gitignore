@@ -4,4 +4,4 @@ lib-manager-service/bin/
 lib-manager-service/obj/
 lib-manager-tests/bin/
 lib-manager-tests/obj/
-
+.idea/

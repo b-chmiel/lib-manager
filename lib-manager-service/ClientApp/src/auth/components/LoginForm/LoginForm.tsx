@@ -8,13 +8,14 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes } from "../../../routing/routes";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
 import {
   loginAsync,
+  revalidateAuth,
   selectAuthError,
   selectAuthStatus,
 } from "../../state/authSlice";
@@ -35,7 +36,11 @@ export const LoginForm: React.FC = () => {
     dispatch(loginAsync(values)).then(() => setSubmitting(false));
   };
 
-  useErrorToast("Login error.", authError);
+  useEffect(() => {
+    dispatch(revalidateAuth());
+  }, [dispatch]);
+
+  useErrorToast("Authorization error.", authError);
   useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 
   return (

@@ -30,7 +30,17 @@ export const registerAsync = createAsyncThunk(
   "auth/register",
   async (creds: UserCredentials) => {
     const response = await registerApi(creds);
-    return response !== null;
+
+    if (response === null) {
+      return false;
+    }
+
+    const token = await loginApi(creds);
+
+    storeToken(token);
+    setAxiosToken(token);
+
+    return token !== null;
   }
 );
 
@@ -43,6 +53,7 @@ export const authSlice = createSlice({
         state.status = AuthStatus.FAILED;
       } else {
         state.status = AuthStatus.SUCCESS;
+        state.error = "";
       }
     },
   },

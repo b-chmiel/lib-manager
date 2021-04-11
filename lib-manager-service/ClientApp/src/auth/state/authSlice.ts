@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../state/store";
 import { retrieveToken, setAxiosToken, storeToken } from "./auth.helpers";
-import { AuthStatus, UserCredentials } from "./auth.types";
+import { AuthStatus, UserCredentials, UserType } from "./auth.types";
 import { loginApi, registerApi } from "./authApi";
 
 export interface AuthState {
@@ -86,6 +86,8 @@ export const { revalidateAuth } = authSlice.actions;
 
 export const selectIsAuthenticated = (state: RootState) =>
   state.authReducer.status === AuthStatus.SUCCESS;
+
+export const selectAuthUserType = (state: RootState) => UserType.LIBRARIAN;
 
 export const selectAuthStatus = (state: RootState) => state.authReducer.status;
 export const selectAuthError = (state: RootState) => state.authReducer.error;

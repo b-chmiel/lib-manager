@@ -1,32 +1,29 @@
-/**
- * Restricted route file
- * @packageDocumentation
- */
-import React from 'react';
-import {Redirect, Route} from 'react-router-dom';
-import {useAuth} from '../../../authentication/context/AuthProvider';
-import {Routes} from '../../routes';
-
-/**
- * Parameter definitions
- */
+import React from "react";
+import { Redirect, Route } from "react-router-dom";
+import { UserType } from "../../auth/state/auth.types";
+import {
+  selectAuthUserType,
+  selectIsAuthenticated,
+} from "../../auth/state/authSlice";
+import { useAppSelector } from "../../state/hooks";
+import { Routes } from "../routes";
 interface Props {
-    /**
-     * Path request from authenticated user
-     */
-    path: string;
+  path: string;
+  userType: UserType;
 }
 
-/**
- * RestrictedRoute component. If user is authenticated then redirects to desired
- * page, otherwise redirects to Login page
- * @param path
- * @param children
- * @returns RestrictedRoute route component
- */
-const RestrictedRoute: React.FC<Props> = ({path, children}) => {
-    const {isAuthenticated} = useAuth();
-    return <Route path={path}>{isAuthenticated ? children : <Redirect to={Routes.LOGIN} />}</Route>;
+const RestrictedRoute: React.FC<Props> = ({ path, children, userType }) => {
+  const isAuth = useAppSelector(selectIsAuthenticated);
+  const authUserType = useAppSelector(selectAuthUserType);
+  return (
+    <Route path={path}>
+      {isAuth && userType === authUserType ? (
+        children
+      ) : (
+        <Redirect to={Routes.LOGIN} />
+      )}
+    </Route>
+  );
 };
 
 export default RestrictedRoute;

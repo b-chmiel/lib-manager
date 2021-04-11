@@ -9,3 +9,8 @@ export enum AuthStatus {
   FAILED,
   INIT,
 }
+
+export enum UserType {
+  LIBRARIAN,
+  READER,
+}

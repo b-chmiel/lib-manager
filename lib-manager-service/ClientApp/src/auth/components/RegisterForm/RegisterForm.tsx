@@ -8,25 +8,40 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
+import { Routes } from "../../../routing/routes";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { useErrorToast } from "../../hooks/useErrorToast";
+import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
+import {
+  registerAsync,
+  revalidateAuth,
+  selectAuthError,
+  selectAuthStatus,
+} from "../../state/authSlice";
 import { initialFormValues } from "./RegisterForm.constants";
 import { validate } from "./RegisterForm.helpers";
 import { RegisterFormData } from "./RegisterForm.types";
 
-/**
- * A form to allow registering a new user
- * @constructor
- */
 export const RegisterForm: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const authStatus = useAppSelector(selectAuthStatus);
+  const authError = useAppSelector(selectAuthError);
+
   const handleSubmit = (
     values: RegisterFormData,
     { setSubmitting }: FormikHelpers<RegisterFormData>
   ) => {
-    console.log(
-      `username: ${values.username}, password: ${values.password}, confirmPassword: ${values.confirmPassword}`
-    );
     setSubmitting(false);
+    dispatch(registerAsync(values)).then(() => setSubmitting(false));
   };
+
+  useEffect(() => {
+    dispatch(revalidateAuth());
+  }, [dispatch]);
+
+  useErrorToast("Authorization error.", authError);
+  useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 
   return (
     <Box
@@ -112,7 +127,6 @@ export const RegisterForm: React.FC = () => {
                 <Button
                   width={"full"}
                   mt={4}
-                  type={"submit"}
                   isDisabled={isSubmitting || !isValid}
                   isLoading={isSubmitting}
                   onClick={() => handleSubmit()}

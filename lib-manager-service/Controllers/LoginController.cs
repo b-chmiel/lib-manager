@@ -21,6 +21,7 @@ namespace lib_manager.Controllers
             _config = config;
         }
 
+        //[Authorize(Roles = "Admin, User")]
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Login([FromBody] UserModel login)
@@ -66,7 +67,7 @@ namespace lib_manager.Controllers
             //Demo Purpose, I have Passed HardCoded User Information
             if (user.EmailAddress == "thepope@gmail.com")
             {
-                user = new UserModel {EmailAddress = "thepope@gmail.com", Password = user.Password, Role = "Admin"};
+                user = new UserModel {EmailAddress = "thepope@gmail.com", Password = user.Password, IsAdministrator = true};
             }
 
             return user;

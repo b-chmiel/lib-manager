@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Reflection;
 using System.IO;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 namespace lib_manager
@@ -26,6 +29,20 @@ namespace lib_manager
         {
             services.AddControllersWithViews();
 
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)    
+                .AddJwtBearer(options =>    
+                {    
+                    options.TokenValidationParameters = new TokenValidationParameters    
+                    {    
+                        ValidateIssuer = true,    
+                        ValidateAudience = true,    
+                        ValidateLifetime = true,    
+                        ValidateIssuerSigningKey = true,    
+                        ValidIssuer = Configuration["Jwt:Issuer"],    
+                        ValidAudience = Configuration["Jwt:Issuer"],    
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))    
+                    };    
+                });  
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
             services.AddSwaggerGen();
@@ -49,6 +66,8 @@ namespace lib_manager
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
+            app.UseAuthentication();
+            
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

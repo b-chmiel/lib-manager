@@ -6,12 +6,12 @@ namespace lib_manager.Models
 
     public class UserModel
     {
-        public string EmailAddress { get; set; }
-        public string Password { get; set; }
+        public string username { get; set; }
+        public string password { get; set; }
         [Display(Name = "Is administrator")]
         public bool IsAdministrator { get; set; }
 
-        [Display(Name = "Is manager")]
-        public bool IsManager { get; set; }
+        [Display(Name = "Is user")]
+        public bool IsUser { get; set; }
     }
 }

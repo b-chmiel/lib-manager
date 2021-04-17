@@ -1,5 +1,5 @@
 ﻿
-
+using Swashbuckle.AspNetCore;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -12,6 +12,8 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace lib_manager.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class LoginController : Controller
     {
         private IConfiguration _config;
@@ -24,11 +26,12 @@ namespace lib_manager.Controllers
         //[Authorize(Roles = "Admin, User")]
         [AllowAnonymous]
         [HttpPost]
+        
         public IActionResult Login([FromBody] UserModel login)
         {
             IActionResult response = Unauthorized();
             var user = AuthenticateUser(login);
-
+            
             if (user != null)
             {
                 var tokenString = GenerateJSONWebToken(user);
@@ -45,8 +48,8 @@ namespace lib_manager.Controllers
 
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, userInfo.EmailAddress),
-                new Claim(JwtRegisteredClaimNames.Email, userInfo.EmailAddress),
+                new Claim(JwtRegisteredClaimNames.Sub, userInfo.username),
+                new Claim(JwtRegisteredClaimNames.Email, userInfo.username),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -62,12 +65,13 @@ namespace lib_manager.Controllers
         private UserModel AuthenticateUser(UserModel login)
         {
             UserModel user = null;
-
+            Console.WriteLine(login.username);
+            Console.WriteLine(login.password);
             //Validate the User Credentials
-            //Demo Purpose, I have Passed HardCoded User Information
-            if (user.EmailAddress == "thepope@gmail.com")
+            
+            if (login.username == "thepope@gmail.com")
             {
-                user = new UserModel {EmailAddress = "thepope@gmail.com", Password = user.Password, IsAdministrator = true};
+                user = new UserModel {username = "thepope@gmail.com", password = login.password, IsUser = true};
             }
 
             return user;

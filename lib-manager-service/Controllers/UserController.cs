@@ -1,6 +1,7 @@
 ﻿
 using Swashbuckle.AspNetCore;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -14,32 +15,71 @@ namespace lib_manager.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class LoginController : Controller
+    public class UserController : Controller
     {
         private IConfiguration _config;
-
-        public LoginController(IConfiguration config)
+        public List<UserModel> users=new List<UserModel>
+        {
+            new UserModel {username = "test1@gmail.com", password = "123", role = UserModel.Role.User}, 
+            new UserModel {username = "thepope@gmail.com", password = "123", role = UserModel.Role.User}   
+        };
+        public UserController(IConfiguration config)
         {
             _config = config;
         }
 
         //[Authorize(Roles = "Admin, User")]
+        
+        
         [AllowAnonymous]
-        [HttpPost]
+        [HttpPost("Register")]
+        
+        public IActionResult Register([FromBody] UserModel login)
+        {
+            //to do: 
+            //check if provided email is in database
+            //if yes, return unauthorized
+            //if no, create the uservar result = new OkObjectResult(new { message = "200 OK", currentDate = DateTime.Now });
+            IActionResult response = new OkObjectResult(new { message = "User Already Exists"});
+            var temp = AuthenticateUser(login);
+            if (temp == null)
+            {
+                users.Add(CreateUser(login));
+                var tokenString = GenerateJSONWebToken(login);
+                response = Ok(new {token = tokenString});
+            }
+            return response;
+        }
+        
+        [AllowAnonymous]
+        [HttpPost ("Login")]
         
         public IActionResult Login([FromBody] UserModel login)
         {
-            IActionResult response = Unauthorized();
-            var user = AuthenticateUser(login);
-            
+            //to do: 
+            //check if provided email is in database
+            //if yes, check if provided password matches stored password
+            IActionResult response = new OkObjectResult(new { message = "User Doesn't Exist"});
+            var user = FindUser(login);
             if (user != null)
             {
-                var tokenString = GenerateJSONWebToken(user);
-                response = Ok(new {token = tokenString});
+                Console.WriteLine(user.password);
+                Console.WriteLine(login.password);
+                if (user.password.Equals(login.password))
+                {
+                    var tokenString = GenerateJSONWebToken(login);
+                    response = Ok(new {token = tokenString});
+                }
+                else
+                {
+                    response= new OkObjectResult(new { message = "Incorrect Password"});
+                }
             }
-
+            
             return response;
         }
+        
+        
 
         private string GenerateJSONWebToken(UserModel userInfo)
         {
@@ -62,19 +102,43 @@ namespace lib_manager.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        private UserModel AuthenticateUser(UserModel login)
-        {
-            UserModel user = null;
-            Console.WriteLine(login.username);
-            Console.WriteLine(login.password);
-            //Validate the User Credentials
-            
-            if (login.username == "thepope@gmail.com")
-            {
-                user = new UserModel {username = "thepope@gmail.com", password = login.password, IsUser = true};
-            }
 
+        private UserModel CreateUser(UserModel login)
+        {
+            //create user with provided model information
+            //add user to database
+            UserModel user = null;
+            user = new UserModel {username = login.username, password = login.password, role = UserModel.Role.User};
             return user;
+        }
+
+        private UserModel FindUser(UserModel login)
+        {
+            //if user in database, return the user
+            //if user not in database, return null
+            UserModel result = null;
+            //find user using LINQ query
+            foreach (var user in users)
+            {
+                if (user.username.Equals(login.username))
+                {
+                    Console.WriteLine("Found user");
+                    result = user;
+                }
+            }
+            
+            
+            return result;
+        }
+        
+        
+        private UserModel AuthenticateUser(UserModel data)
+        {
+            //if user is in database, return user
+            //if user is not in database, return null
+            UserModel user = null;
+            
+            return FindUser(data);
         }
     }
 }

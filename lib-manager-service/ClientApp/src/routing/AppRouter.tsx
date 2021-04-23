@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { UserType } from "../auth/state/auth.types";
-import { selectIsAuthenticated } from "../auth/state/authSlice";
+import { selectIsAuthenticated } from "../auth/state/authSelectors";
 import LoginView from "../auth/views/LoginView/LoginView";
 import RegisterView from "../auth/views/RegisterView/RegisterView";
 import { Menu } from "../common/components/Menu/Menu";
@@ -21,15 +21,15 @@ export const AppRouter: React.FC = () => {
         <Route path={"/"} exact>
           <Redirect to={isAuth ? Routes.HOME_PAGE : Routes.LOGIN} />
         </Route>
-        <Menu>
-          <Route path={Routes.HOME_PAGE}>
+        <Route path={Routes.HOME_PAGE}>
+          <Menu>
             {userType === UserType.LIBRARIAN ? (
               <BookInventoryView />
             ) : (
               <>Reader view</>
             )}
-          </Route>
-        </Menu>
+          </Menu>
+        </Route>
         <Route path={Routes.LOGIN}>
           <LoginView />
         </Route>

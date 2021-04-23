@@ -14,12 +14,9 @@ import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { Routes } from "../../../routing/routes";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
-import {
-  loginAsync,
-  revalidateAuth,
-  selectAuthError,
-  selectAuthStatus,
-} from "../../state/authSlice";
+import { selectAuthError, selectAuthStatus } from "../../state/authSelectors";
+import { revalidateAuth } from "../../state/authSlice";
+import { loginAsync } from "../../state/authThunks";
 import { initialFormValues } from "./LoginForm.constants";
 import { validate } from "./LoginForm.helpers";
 import { LoginFormData } from "./LoginForm.types";

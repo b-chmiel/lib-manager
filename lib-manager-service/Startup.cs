@@ -9,7 +9,9 @@ using System;
 using System.Reflection;
 using System.IO;
 using System.Text;
+using lib_manager.Database;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -46,6 +48,11 @@ namespace lib_manager
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
             services.AddSwaggerGen();
+            
+            services.AddDbContext<UserContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("UserDatabase"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,6 +81,8 @@ namespace lib_manager
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Test");
             });
             app.UseRouting();
+            
+            
 
             app.UseEndpoints(endpoints =>
             {

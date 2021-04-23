@@ -4,6 +4,7 @@ import { UserType } from "../auth/state/auth.types";
 import { selectIsAuthenticated } from "../auth/state/authSlice";
 import LoginView from "../auth/views/LoginView/LoginView";
 import RegisterView from "../auth/views/RegisterView/RegisterView";
+import { Menu } from "../common/components/Menu/Menu";
 import { useAppSelector } from "../config/hooks";
 import { BookInventoryView } from "../librarian/views/BookInventoryView";
 import { getBaseName } from "./AppRouter.helpers";
@@ -20,13 +21,15 @@ export const AppRouter: React.FC = () => {
         <Route path={"/"} exact>
           <Redirect to={isAuth ? Routes.HOME_PAGE : Routes.LOGIN} />
         </Route>
-        <Route path={Routes.HOME_PAGE}>
-          {userType === UserType.LIBRARIAN ? (
-            <BookInventoryView />
-          ) : (
-            <>Reader view</>
-          )}
-        </Route>
+        <Menu>
+          <Route path={Routes.HOME_PAGE}>
+            {userType === UserType.LIBRARIAN ? (
+              <BookInventoryView />
+            ) : (
+              <>Reader view</>
+            )}
+          </Route>
+        </Menu>
         <Route path={Routes.LOGIN}>
           <LoginView />
         </Route>

@@ -36,6 +36,9 @@ const resources = {
         PageCount: "Page count",
         BookCount: "Book count",
       },
+      Menu: {
+        Title: "Lib manager",
+      },
     },
   },
 };

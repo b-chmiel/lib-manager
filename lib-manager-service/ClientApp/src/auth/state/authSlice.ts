@@ -1,17 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../config/store";
-import { retrieveToken, setAxiosToken, storeToken } from "./auth.helpers";
-import { AuthStatus, UserCredentials, UserType } from "./auth.types";
+import {
+  parseToken,
+  retrieveToken,
+  setAxiosToken,
+  storeToken,
+} from "./auth.helpers";
+import { AuthStatus, User, UserCredentials, UserType } from "./auth.types";
 import { loginApi, registerApi } from "./authApi";
 
 export interface AuthState {
   status: AuthStatus;
   error: string | undefined;
+  user: User | undefined;
 }
 
 const initialState: AuthState = {
   status: AuthStatus.INIT,
   error: "",
+  user: undefined,
 };
 
 export const loginAsync = createAsyncThunk(
@@ -93,3 +100,5 @@ export const selectAuthStatus = (state: RootState) => state.authReducer.status;
 export const selectAuthError = (state: RootState) => state.authReducer.error;
 
 export default authSlice.reducer;
+
+export const selectUserInfo = (state: RootState) => parseToken(retrieveToken());

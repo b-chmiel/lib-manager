@@ -9,10 +9,11 @@ namespace lib_manager.Database
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
         }
-        public DbSet<UserModel> userList{ get; set; }
+        public DbSet<UserModel> UserList{ get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder) { 
-            //modelBuilder.Fill();            
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.Seed();       
         }
     }
     

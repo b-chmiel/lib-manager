@@ -9,16 +9,13 @@ import {
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { Routes } from "../../../routing/routes";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
-import {
-  registerAsync,
-  revalidateAuth,
-  selectAuthError,
-  selectAuthStatus,
-} from "../../state/authSlice";
+import { selectAuthError, selectAuthStatus } from "../../state/authSelectors";
+import { revalidateAuth } from "../../state/authSlice";
+import { registerAsync } from "../../state/authThunks";
 import { initialFormValues } from "./RegisterForm.constants";
 import { validate } from "./RegisterForm.helpers";
 import { RegisterFormData } from "./RegisterForm.types";

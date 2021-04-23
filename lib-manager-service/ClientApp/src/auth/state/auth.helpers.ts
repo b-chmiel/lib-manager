@@ -19,3 +19,11 @@ export function setAxiosToken(token: string | null) {
     axios.defaults.headers["Authorization"] = `Bearer ${token}`;
   }
 }
+
+export function parseToken(token: string | null) {
+  if (token === null) {
+    return null;
+  } else {
+    JSON.parse(atob(token.split(".")[1]));
+  }
+}

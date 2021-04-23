@@ -1,24 +1,42 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RequestStatus } from "../../common/utils/types";
-import { RootState } from "../../state/store";
+import { RootState } from "../../config/store";
+import { AddBookFormData } from "../components/AddBookForm/AddBookForm.types";
 import { Book } from "./book.types";
-import { getBooks } from "./librarianApi";
+import { getBooks, postBook } from "./librarianApi";
 
 export interface LibrarianState {
-  status: RequestStatus;
-  error: string | undefined;
-  books: Book[];
+  getBooks: {
+    status: RequestStatus;
+    error: string | undefined;
+    books: Book[];
+  };
+  postBook: {
+    status: RequestStatus;
+    error: string | undefined;
+  };
 }
 
 const initialState: LibrarianState = {
-  status: RequestStatus.INIT,
-  error: "",
-  books: [],
+  getBooks: {
+    status: RequestStatus.INIT,
+    error: "",
+    books: [],
+  },
+  postBook: {
+    status: RequestStatus.INIT,
+    error: "",
+  },
 };
 
 export const getBooksAsync = createAsyncThunk(
   "librarian/get-books",
   async () => await getBooks()
+);
+
+export const postBookAsync = createAsyncThunk(
+  "librarian/post-book",
+  async (book: AddBookFormData) => await postBook(book)
 );
 
 export const librarianSlice = createSlice({
@@ -28,24 +46,38 @@ export const librarianSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getBooksAsync.pending, (state) => {
-        state.status = RequestStatus.LOADING;
+        state.getBooks.status = RequestStatus.LOADING;
       })
       .addCase(getBooksAsync.fulfilled, (state, action) => {
-        state.status = RequestStatus.SUCCESS;
-        state.books = action.payload;
+        state.getBooks.status = RequestStatus.SUCCESS;
+        state.getBooks.books = action.payload;
       })
       .addCase(getBooksAsync.rejected, (state, action) => {
-        state.status = RequestStatus.FAILED;
-        state.error = action.error.message;
+        state.getBooks.status = RequestStatus.FAILED;
+        state.getBooks.error = action.error.message;
+      })
+      .addCase(postBookAsync.pending, (state) => {
+        state.postBook.status = RequestStatus.LOADING;
+      })
+      .addCase(postBookAsync.fulfilled, (state) => {
+        state.postBook.status = RequestStatus.SUCCESS;
+      })
+      .addCase(postBookAsync.rejected, (state, action) => {
+        state.postBook.status = RequestStatus.FAILED;
+        state.postBook.error = action.error.message;
       });
   },
 });
 
 export const selectGetBooks = (state: RootState) =>
-  state.librarianReducer.books;
+  state.librarianReducer.getBooks.books;
 export const selectGetBooksStatus = (state: RootState) =>
-  state.librarianReducer.status;
+  state.librarianReducer.getBooks.status;
 export const selectGetBooksError = (state: RootState) =>
-  state.librarianReducer.error;
+  state.librarianReducer.getBooks.error;
+export const selectPostBookStatus = (state: RootState) =>
+  state.librarianReducer.postBook.status;
+export const selectPostBookError = (state: RootState) =>
+  state.librarianReducer.postBook.error;
 
 export default librarianSlice.reducer;

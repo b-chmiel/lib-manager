@@ -90,6 +90,8 @@ namespace lib_manager.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.username),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.username),
+                new Claim(ClaimTypes.Role, userInfo.role.ToString()),
+                new Claim(JwtRegisteredClaimNames.Aud, "Front End"), 
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 

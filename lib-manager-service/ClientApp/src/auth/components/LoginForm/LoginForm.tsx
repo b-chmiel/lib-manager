@@ -9,8 +9,9 @@ import {
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { Routes } from "../../../routing/routes";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { useErrorToast } from "../../hooks/useErrorToast";
 import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
 import {
@@ -25,6 +26,7 @@ import { LoginFormData } from "./LoginForm.types";
 
 export const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const authStatus = useAppSelector(selectAuthStatus);
   const authError = useAppSelector(selectAuthError);
 
@@ -53,7 +55,7 @@ export const LoginForm: React.FC = () => {
       boxShadow={"lg"}
     >
       <Box textAlign={"center"}>
-        <Heading>Welcome back</Heading>
+        <Heading>{t("Auth.WelcomeBack")}</Heading>
       </Box>
 
       <Box my={4} mb={0} textAlign={"left"}>
@@ -79,7 +81,7 @@ export const LoginForm: React.FC = () => {
                 <FormControl
                   isInvalid={!!(errors.username && touched.username)}
                 >
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>{t("Auth.Username")}</FormLabel>
                   <Input
                     type={"text"}
                     placeholder={"username"}
@@ -95,7 +97,7 @@ export const LoginForm: React.FC = () => {
                   mt={4}
                   isInvalid={!!(errors.password && touched.password)}
                 >
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t("Auth.Password")}</FormLabel>
                   <Input
                     type={"password"}
                     placeholder={"********"}
@@ -114,7 +116,7 @@ export const LoginForm: React.FC = () => {
                   isLoading={isSubmitting}
                   onClick={() => handleSubmit()}
                 >
-                  Sign In
+                  {t("Auth.SignIn")}
                 </Button>
               </form>
             );

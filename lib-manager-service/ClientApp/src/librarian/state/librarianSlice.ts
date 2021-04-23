@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { RequestStatus } from "../../common/utils/types";
-import { RootState } from "../../state/store";
+import { RootState } from "../../config/store";
 import { Book } from "./book.types";
 import { getBooks } from "./librarianApi";
 

@@ -5,7 +5,7 @@ import {
   selectAuthUserType,
   selectIsAuthenticated,
 } from "../../auth/state/authSlice";
-import { useAppSelector } from "../../state/hooks";
+import { useAppSelector } from "../../config/hooks";
 import { Routes } from "../routes";
 interface Props {
   path: string;

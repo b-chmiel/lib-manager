@@ -4,8 +4,8 @@ import { UserType } from "../auth/state/auth.types";
 import { selectIsAuthenticated } from "../auth/state/authSlice";
 import LoginView from "../auth/views/LoginView/LoginView";
 import RegisterView from "../auth/views/RegisterView/RegisterView";
+import { useAppSelector } from "../config/hooks";
 import { BookInventoryView } from "../librarian/views/BookInventoryView";
-import { useAppSelector } from "../state/hooks";
 import { getBaseName } from "./AppRouter.helpers";
 import { Routes } from "./routes";
 

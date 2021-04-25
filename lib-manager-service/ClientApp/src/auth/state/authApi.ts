@@ -11,7 +11,7 @@ export function loginApi(
       password: creds.password,
     })
     .then((response) => response.data)
-    .catch((error) => error);
+    .catch((error) => Promise.reject(error.response.data));
 }
 
 export function registerApi(
@@ -23,5 +23,5 @@ export function registerApi(
       password: creds.password,
     })
     .then((response) => response.data)
-    .catch((error) => error);
+    .catch((error) => Promise.reject(error.response.data));
 }

@@ -14,12 +14,13 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     revalidateAuth: (state) => {
-      var token = retrieveToken();
-      if (token === null) {
+      var user = getUserInfo(retrieveToken());
+      if (user === undefined) {
         state.status = AuthStatus.FAILED;
+        state.error = "";
       } else {
         state.status = AuthStatus.SUCCESS;
-        state.user = getUserInfo(token);
+        state.user = user;
         state.error = "";
       }
     },
@@ -36,8 +37,13 @@ export const authSlice = createSlice({
         state.status = AuthStatus.LOADING;
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        state.status = AuthStatus.SUCCESS;
-        state.user = getUserInfo(retrieveToken());
+        var user = getUserInfo(retrieveToken());
+        if (user === undefined) {
+          state.status = AuthStatus.FAILED;
+        } else {
+          state.status = AuthStatus.SUCCESS;
+          state.user = user;
+        }
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.status = AuthStatus.FAILED;
@@ -47,8 +53,13 @@ export const authSlice = createSlice({
         state.status = AuthStatus.LOADING;
       })
       .addCase(registerAsync.fulfilled, (state, action) => {
-        state.status = AuthStatus.SUCCESS;
-        state.user = getUserInfo(retrieveToken());
+        var user = getUserInfo(retrieveToken());
+        if (user === undefined) {
+          state.status = AuthStatus.FAILED;
+        } else {
+          state.status = AuthStatus.SUCCESS;
+          state.user = user;
+        }
       })
       .addCase(registerAsync.rejected, (state, action) => {
         state.status = AuthStatus.FAILED;

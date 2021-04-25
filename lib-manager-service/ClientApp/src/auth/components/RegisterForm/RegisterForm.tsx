@@ -6,12 +6,12 @@ import {
   FormLabel,
   Heading,
   Input,
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { Routes } from "../../../routing/routes";
-import { useErrorToast } from "../../hooks/useErrorToast";
 import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
 import { selectAuthError, selectAuthStatus } from "../../state/authSelectors";
 import { revalidateAuth } from "../../state/authSlice";
@@ -24,6 +24,7 @@ export const RegisterForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(selectAuthStatus);
   const authError = useAppSelector(selectAuthError);
+  const toast = useToast();
 
   const handleSubmit = (
     values: RegisterFormData,
@@ -34,10 +35,18 @@ export const RegisterForm: React.FC = () => {
   };
 
   useEffect(() => {
+    if (authError !== "") {
+      toast({
+        title: "Register error.",
+        description: authError,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
     dispatch(revalidateAuth());
-  }, [dispatch]);
+  }, [authError, toast]);
 
-  useErrorToast("Authorization error.", authError);
   useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 
   return (

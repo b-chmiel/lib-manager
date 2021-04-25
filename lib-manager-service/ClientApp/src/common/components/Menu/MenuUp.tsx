@@ -6,13 +6,13 @@ import { selectAuthUserType } from "../../../auth/state/authSelectors";
 import { logout } from "../../../auth/state/authSlice";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { Routes } from "../../../routing/routes";
-import { getUserType } from "./MenuUp.helpers";
+import { getUserTypeDescription } from "./MenuUp.helpers";
 import { MainBox } from "./MenuUp.styles";
 
 export const MenuUp: FC = () => {
   const { t } = useTranslation();
   const type = useAppSelector(selectAuthUserType);
-  const userType = getUserType(type);
+  const userType = getUserTypeDescription(type);
   const dispatch = useAppDispatch();
   const history = useHistory();
 

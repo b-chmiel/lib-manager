@@ -6,13 +6,13 @@ import {
   FormLabel,
   Heading,
   Input,
+  useToast
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { Routes } from "../../../routing/routes";
-import { useErrorToast } from "../../hooks/useErrorToast";
 import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
 import { selectAuthError, selectAuthStatus } from "../../state/authSelectors";
 import { revalidateAuth } from "../../state/authSlice";
@@ -26,6 +26,7 @@ export const LoginForm: React.FC = () => {
   const { t } = useTranslation();
   const authStatus = useAppSelector(selectAuthStatus);
   const authError = useAppSelector(selectAuthError);
+  const toast = useToast();
 
   const handleSubmit = (
     values: LoginFormData,
@@ -37,9 +38,21 @@ export const LoginForm: React.FC = () => {
 
   useEffect(() => {
     dispatch(revalidateAuth());
-  }, [dispatch]);
+  }, []);
 
-  useErrorToast("Authorization error.", authError);
+  useEffect(() => {
+    if (authError !== "") {
+      toast({
+        title: "Login error.",
+        description: authError,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+    dispatch(revalidateAuth());
+  }, [authError, toast]);
+
   useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 
   return (

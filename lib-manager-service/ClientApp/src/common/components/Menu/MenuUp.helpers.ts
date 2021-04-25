@@ -1,6 +1,6 @@
 import { UserType } from "../../../auth/state/auth.types";
 
-export function getUserType(userType: UserType) {
+export function getUserTypeDescription(userType: UserType) {
   switch (userType) {
     case UserType.LIBRARIAN:
       return "Librarian";

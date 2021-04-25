@@ -1,14 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { RootState } from "../../config/store";
-import { parseToken, retrieveToken, storeToken } from "./auth.helpers";
-import { AuthStatus, User } from "./auth.types";
+import { getUserInfo, retrieveToken, storeToken } from "./auth.helpers";
+import { AuthState, AuthStatus } from "./auth.types";
 import { loginAsync, registerAsync } from "./authThunks";
-
-export interface AuthState {
-  status: AuthStatus;
-  error: string | undefined;
-  user: User | undefined;
-}
 
 const initialState: AuthState = {
   status: AuthStatus.INIT,
@@ -21,10 +14,13 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     revalidateAuth: (state) => {
-      if (retrieveToken() === null) {
+      var user = getUserInfo(retrieveToken());
+      if (user === undefined) {
         state.status = AuthStatus.FAILED;
+        state.error = "";
       } else {
         state.status = AuthStatus.SUCCESS;
+        state.user = user;
         state.error = "";
       }
     },
@@ -41,7 +37,13 @@ export const authSlice = createSlice({
         state.status = AuthStatus.LOADING;
       })
       .addCase(loginAsync.fulfilled, (state, action) => {
-        state.status = AuthStatus.SUCCESS;
+        var user = getUserInfo(retrieveToken());
+        if (user === undefined) {
+          state.status = AuthStatus.FAILED;
+        } else {
+          state.status = AuthStatus.SUCCESS;
+          state.user = user;
+        }
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.status = AuthStatus.FAILED;
@@ -51,7 +53,13 @@ export const authSlice = createSlice({
         state.status = AuthStatus.LOADING;
       })
       .addCase(registerAsync.fulfilled, (state, action) => {
-        state.status = AuthStatus.SUCCESS;
+        var user = getUserInfo(retrieveToken());
+        if (user === undefined) {
+          state.status = AuthStatus.FAILED;
+        } else {
+          state.status = AuthStatus.SUCCESS;
+          state.user = user;
+        }
       })
       .addCase(registerAsync.rejected, (state, action) => {
         state.status = AuthStatus.FAILED;
@@ -63,5 +71,3 @@ export const authSlice = createSlice({
 export const { revalidateAuth, logout } = authSlice.actions;
 
 export default authSlice.reducer;
-
-export const selectUserInfo = (state: RootState) => parseToken(retrieveToken());

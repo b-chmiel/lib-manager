@@ -6,7 +6,8 @@ import { loginApi, registerApi } from "./authApi";
 export const loginAsync = createAsyncThunk(
   "auth/login",
   async (creds: UserCredentials) => {
-    const token = await loginApi(creds);
+    const response = await loginApi(creds);
+    const token = response?.token ?? null;
 
     storeToken(token);
     setAxiosToken(token);
@@ -19,12 +20,11 @@ export const registerAsync = createAsyncThunk(
   "auth/register",
   async (creds: UserCredentials) => {
     const response = await registerApi(creds);
+    const token = response?.token ?? null;
 
     if (response === null) {
       return false;
     }
-
-    const token = await loginApi(creds);
 
     storeToken(token);
     setAxiosToken(token);

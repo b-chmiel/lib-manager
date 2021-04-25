@@ -22,19 +22,13 @@ namespace lib_manager.Controllers
     {
         private IConfiguration _config;
         private UserContext _context;
-        public List<UserModel> users=new List<UserModel>
-        {
-            new UserModel {username = "test1@gmail.com", password = "123", role = UserModel.Role.User}, 
-            new UserModel {username = "thepope@gmail.com", password = "123", role = UserModel.Role.User}   
-        };
+        
         public UserController(IConfiguration config, UserContext context)
         {
             _config = config;
             _context = context;
         }
 
-        //[Authorize(Roles = "Admin, User")]
-        
         
         [AllowAnonymous]
         [HttpPost("Register")]
@@ -45,7 +39,8 @@ namespace lib_manager.Controllers
             var temp = AuthenticateUser(login);
             if (temp == null)
             {
-                users.Add(CreateUser(login));
+                _context.UserList.Add(CreateUser(login));
+                _context.SaveChangesAsync();
                 var tokenString = GenerateJSONWebToken(login);
                 response = Ok(new {token = tokenString});
             }
@@ -57,15 +52,10 @@ namespace lib_manager.Controllers
         
         public IActionResult Login([FromBody] UserModel login)
         {
-            //to do: 
-            //check if provided email is in database
-            //if yes, check if provided password matches stored password
             IActionResult response = new OkObjectResult(new { message = "Username or Password is Incorrect", StatusCode = 401});
             var user = AuthenticateUser(login);
             if (user != null)
             {
-                Console.WriteLine(user.password);
-                Console.WriteLine(login.password);
                 if (user.password.Equals(login.password))
                 {
                     var tokenString = GenerateJSONWebToken(login);
@@ -74,9 +64,15 @@ namespace lib_manager.Controllers
             }
             return response;
         }
+
+        [HttpGet("UserList")]
+        public IActionResult Users()
+        {
+            IActionResult response = Ok(_context.UserList.ToList());
+            return response;
+        }
         
         
-//add role into jwt token
         private string GenerateJSONWebToken(UserModel userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -103,21 +99,13 @@ namespace lib_manager.Controllers
 
         private UserModel CreateUser(UserModel login)
         {
-            //create user with provided model information
-            //add user to database
-            UserModel user = null;
-            user = new UserModel {username = login.username, password = login.password, role = UserModel.Role.User};
-            return user;
+            return new UserModel {username = login.username, password = login.password, role = UserModel.Role.User};
         }
 
         
         private UserModel AuthenticateUser(UserModel data)
         {
-            //if user is in database, return user
-            //if user is not in database, return null
-
-            var user = _context.UserList.Where(x => x.username == data.username).ToList();
-            return user[0];
+            return _context.UserList.FirstOrDefault(x => x.username == data.username);
         }
     }
 }

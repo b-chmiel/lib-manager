@@ -3,11 +3,14 @@ using Swashbuckle.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using lib_manager.Database;
 using lib_manager.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -18,14 +21,16 @@ namespace lib_manager.Controllers
     public class UserController : Controller
     {
         private IConfiguration _config;
+        private UserContext _context;
         public List<UserModel> users=new List<UserModel>
         {
             new UserModel {username = "test1@gmail.com", password = "123", role = UserModel.Role.User}, 
             new UserModel {username = "thepope@gmail.com", password = "123", role = UserModel.Role.User}   
         };
-        public UserController(IConfiguration config)
+        public UserController(IConfiguration config, UserContext context)
         {
             _config = config;
+            _context = context;
         }
 
         //[Authorize(Roles = "Admin, User")]
@@ -36,11 +41,13 @@ namespace lib_manager.Controllers
         
         public IActionResult Register([FromBody] UserModel login)
         {
-            //to do: 
-            //check if provided email is in database
-            //if yes, return unauthorized
-            //if no, create the uservar result = new OkObjectResult(new { message = "200 OK", currentDate = DateTime.Now });
             IActionResult response = new OkObjectResult(new { message = "User Already Exists"});
+            var data=_context.UserList.ToList();
+            foreach (var dude in data)
+            {
+                Console.WriteLine(dude.username);
+            }
+            
             var temp = AuthenticateUser(login);
             if (temp == null)
             {

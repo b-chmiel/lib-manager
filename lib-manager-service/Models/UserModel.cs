@@ -11,6 +11,7 @@ namespace lib_manager.Models
             Administrator,
             User
         }
+        [Key]
         public string username { get; set; }
         public string password { get; set; }
         

@@ -48,7 +48,6 @@ namespace lib_manager
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
             services.AddSwaggerGen();
-            
             services.AddDbContext<UserContext>(options =>
             {
                 options.UseNpgsql(Configuration.GetConnectionString("UserDatabase"));

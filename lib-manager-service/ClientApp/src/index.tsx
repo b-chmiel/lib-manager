@@ -4,9 +4,10 @@ import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { App } from "./App";
 import { revalidateAuth } from "./auth/state/authSlice";
+import "./config/i18n";
+import { store } from "./config/store";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
-import { store } from "./state/store";
 
 store.dispatch(revalidateAuth());
 

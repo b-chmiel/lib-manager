@@ -14,3 +14,7 @@ export enum UserType {
   LIBRARIAN,
   READER,
 }
+
+export interface User {
+  name: string;
+}

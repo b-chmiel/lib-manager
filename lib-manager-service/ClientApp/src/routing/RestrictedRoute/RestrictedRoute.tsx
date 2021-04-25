@@ -4,8 +4,8 @@ import { UserType } from "../../auth/state/auth.types";
 import {
   selectAuthUserType,
   selectIsAuthenticated,
-} from "../../auth/state/authSlice";
-import { useAppSelector } from "../../state/hooks";
+} from "../../auth/state/authSelectors";
+import { useAppSelector } from "../../config/hooks";
 import { Routes } from "../routes";
 interface Props {
   path: string;
@@ -15,6 +15,7 @@ interface Props {
 const RestrictedRoute: React.FC<Props> = ({ path, children, userType }) => {
   const isAuth = useAppSelector(selectIsAuthenticated);
   const authUserType = useAppSelector(selectAuthUserType);
+
   return (
     <Route path={path}>
       {isAuth && userType === authUserType ? (

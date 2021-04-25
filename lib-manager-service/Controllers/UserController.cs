@@ -41,13 +41,7 @@ namespace lib_manager.Controllers
         
         public IActionResult Register([FromBody] UserModel login)
         {
-            IActionResult response = new OkObjectResult(new { message = "User Already Exists"});
-            var data=_context.UserList.ToList();
-            foreach (var dude in data)
-            {
-                Console.WriteLine(dude.username);
-            }
-            
+            IActionResult response = new OkObjectResult(new { message = "User Already Exists", StatusCode = 409});
             var temp = AuthenticateUser(login);
             if (temp == null)
             {
@@ -66,8 +60,8 @@ namespace lib_manager.Controllers
             //to do: 
             //check if provided email is in database
             //if yes, check if provided password matches stored password
-            IActionResult response = new OkObjectResult(new { message = "User Doesn't Exist"});
-            var user = FindUser(login);
+            IActionResult response = new OkObjectResult(new { message = "Username or Password is Incorrect", StatusCode = 401});
+            var user = AuthenticateUser(login);
             if (user != null)
             {
                 Console.WriteLine(user.password);
@@ -77,12 +71,7 @@ namespace lib_manager.Controllers
                     var tokenString = GenerateJSONWebToken(login);
                     response = Ok(new {token = tokenString});
                 }
-                else
-                {
-                    response= new OkObjectResult(new { message = "Incorrect Password"});
-                }
             }
-            
             return response;
         }
         
@@ -121,33 +110,14 @@ namespace lib_manager.Controllers
             return user;
         }
 
-        private UserModel FindUser(UserModel login)
-        {
-            //if user in database, return the user
-            //if user not in database, return null
-            UserModel result = null;
-            //find user using LINQ query
-            foreach (var user in users)
-            {
-                if (user.username.Equals(login.username))
-                {
-                    Console.WriteLine("Found user");
-                    result = user;
-                }
-            }
-            
-            
-            return result;
-        }
-        
         
         private UserModel AuthenticateUser(UserModel data)
         {
             //if user is in database, return user
             //if user is not in database, return null
-            UserModel user = null;
-            
-            return FindUser(data);
+
+            var user = _context.UserList.Where(x => x.username == data.username).ToList();
+            return user[0];
         }
     }
 }

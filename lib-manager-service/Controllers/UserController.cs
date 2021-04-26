@@ -17,7 +17,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace lib_manager.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : Controller
     {
         private IConfiguration _config;
@@ -35,7 +35,7 @@ namespace lib_manager.Controllers
         
         public IActionResult Register([FromBody] UserModel login)
         {
-            IActionResult response = new OkObjectResult(new { message = "User Already Exists", StatusCode = 409});
+            IActionResult response = StatusCode(409, "User Already Exists");
             var temp = AuthenticateUser(login);
             if (temp == null)
             {
@@ -52,7 +52,7 @@ namespace lib_manager.Controllers
         
         public IActionResult Login([FromBody] UserModel login)
         {
-            IActionResult response = new OkObjectResult(new { message = "Username or Password is Incorrect", StatusCode = 401});
+            IActionResult response = StatusCode(401,"Username or Password is Incorrect");
             var user = AuthenticateUser(login);
             if (user != null)
             {

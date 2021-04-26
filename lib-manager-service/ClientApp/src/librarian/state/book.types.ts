@@ -5,7 +5,7 @@ export interface Book {
   subtitle: string;
   description: string;
   language: BookLanguage;
-  publicationDate: Date;
+  publicationDate: string;
   pageCount: number;
   bookSeriesName: string;
   bookSeriesNumber: number;

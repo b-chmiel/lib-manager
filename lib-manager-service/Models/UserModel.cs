@@ -8,8 +8,8 @@ namespace lib_manager.Models
         
         public enum Role
         {
-            Administrator,
-            User
+            User,
+            Administrator
         }
         [Key]
         public string username { get; set; }

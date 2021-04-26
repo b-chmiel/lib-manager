@@ -6,27 +6,27 @@ import {
   FormLabel,
   Heading,
   Input,
+  useToast
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { Routes } from "../../../routing/routes";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
-import { useErrorToast } from "../../hooks/useErrorToast";
 import { useRedirectOnSuccess } from "../../hooks/useRedirectOnSuccess";
-import {
-  loginAsync,
-  revalidateAuth,
-  selectAuthError,
-  selectAuthStatus,
-} from "../../state/authSlice";
+import { selectAuthError, selectAuthStatus } from "../../state/authSelectors";
+import { revalidateAuth } from "../../state/authSlice";
+import { loginAsync } from "../../state/authThunks";
 import { initialFormValues } from "./LoginForm.constants";
 import { validate } from "./LoginForm.helpers";
 import { LoginFormData } from "./LoginForm.types";
 
 export const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const authStatus = useAppSelector(selectAuthStatus);
   const authError = useAppSelector(selectAuthError);
+  const toast = useToast();
 
   const handleSubmit = (
     values: LoginFormData,
@@ -38,9 +38,21 @@ export const LoginForm: React.FC = () => {
 
   useEffect(() => {
     dispatch(revalidateAuth());
-  }, [dispatch]);
+  }, []);
 
-  useErrorToast("Authorization error.", authError);
+  useEffect(() => {
+    if (authError !== "") {
+      toast({
+        title: "Login error.",
+        description: authError,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+    dispatch(revalidateAuth());
+  }, [authError, toast]);
+
   useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 
   return (
@@ -53,7 +65,7 @@ export const LoginForm: React.FC = () => {
       boxShadow={"lg"}
     >
       <Box textAlign={"center"}>
-        <Heading>Welcome back</Heading>
+        <Heading>{t("Auth.WelcomeBack")}</Heading>
       </Box>
 
       <Box my={4} mb={0} textAlign={"left"}>
@@ -79,7 +91,7 @@ export const LoginForm: React.FC = () => {
                 <FormControl
                   isInvalid={!!(errors.username && touched.username)}
                 >
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel>{t("Auth.Username")}</FormLabel>
                   <Input
                     type={"text"}
                     placeholder={"username"}
@@ -95,7 +107,7 @@ export const LoginForm: React.FC = () => {
                   mt={4}
                   isInvalid={!!(errors.password && touched.password)}
                 >
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>{t("Auth.Password")}</FormLabel>
                   <Input
                     type={"password"}
                     placeholder={"********"}
@@ -114,7 +126,7 @@ export const LoginForm: React.FC = () => {
                   isLoading={isSubmitting}
                   onClick={() => handleSubmit()}
                 >
-                  Sign In
+                  {t("Auth.SignIn")}
                 </Button>
               </form>
             );

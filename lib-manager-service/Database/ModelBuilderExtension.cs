@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using lib_manager.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,8 +19,8 @@ namespace lib_manager.Database
                     username = "thepope@gmail.com",
                     password = "blessyou",
                     role = UserModel.Role.Administrator
-                }); 
-            
+                });
+
             modelBuilder.Entity<BookModel>().HasData(
                 new BookModel()
                 {
@@ -48,7 +48,7 @@ namespace lib_manager.Database
                     language = "German",
                     publicationDate = new DateTime(1915, 6, 1),
                     pageCount = 58
-                }); 
+                });
         }
     }
 }

@@ -33,7 +33,7 @@ namespace lib_manager.Controllers
             {
                 _context.BookList.Add(CreateBook(bookData));
                 _context.SaveChanges();
-                response = StatusCode(200, "Book Added Successfully");
+                response = StatusCode(201, "Book Added Successfully");
             }
             return response;
         }
@@ -67,7 +67,7 @@ namespace lib_manager.Controllers
         
         public IActionResult DeleteBook([FromBody] BookModel bookData)
         {
-            IActionResult response = StatusCode(200,"Book Entry Removed");
+            IActionResult response = StatusCode(204,"Book Entry Removed");
             _context.Remove(bookData);
             _context.SaveChanges();
             return response;

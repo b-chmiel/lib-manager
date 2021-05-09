@@ -52,6 +52,10 @@ namespace lib_manager
             {
                 options.UseNpgsql(Configuration.GetConnectionString("UserDatabase"));
             });
+            services.AddDbContext<BookContext>(options =>
+            {
+                options.UseNpgsql(Configuration.GetConnectionString("UserDatabase"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

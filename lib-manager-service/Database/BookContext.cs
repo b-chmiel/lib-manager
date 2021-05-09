@@ -5,7 +5,7 @@ namespace lib_manager.Database
 {
     public class BookContext: DbContext
     {
-        public BookContext(DbContextOptions<UserContext> options) : base(options)
+        public BookContext(DbContextOptions<BookContext> options) : base(options)
         {
         }
 

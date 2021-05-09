@@ -40,7 +40,7 @@ namespace lib_manager.Controllers
             if (temp == null)
             {
                 _context.UserList.Add(CreateUser(login));
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 var tokenString = GenerateJSONWebToken(login);
                 response = Ok(new {token = tokenString});
             }

@@ -22,17 +22,17 @@ namespace lib_manager.Controllers
     {
         private IConfiguration _config;
         private UserContext _context;
-        
+
         public UserController(IConfiguration config, UserContext context)
         {
             _config = config;
             _context = context;
         }
 
-        
+
         [AllowAnonymous]
         [HttpPost("Register")]
-        
+
         public IActionResult Register([FromBody] UserModel login)
         {
             IActionResult response = StatusCode(409, "User Already Exists");
@@ -40,26 +40,26 @@ namespace lib_manager.Controllers
             if (temp == null)
             {
                 _context.UserList.Add(CreateUser(login));
-                _context.SaveChangesAsync();
+                _context.SaveChanges();
                 var tokenString = GenerateJSONWebToken(login);
-                response = Ok(new {token = tokenString});
+                response = Ok(new { token = tokenString });
             }
             return response;
         }
-        
+
         [AllowAnonymous]
-        [HttpPost ("Login")]
-        
+        [HttpPost("Login")]
+
         public IActionResult Login([FromBody] UserModel login)
         {
-            IActionResult response = StatusCode(401,"Username or Password is Incorrect");
+            IActionResult response = StatusCode(401, "Username or Password is Incorrect");
             var user = AuthenticateUser(login);
             if (user != null)
             {
                 if (user.password.Equals(login.password))
                 {
                     var tokenString = GenerateJSONWebToken(login);
-                    response = Ok(new {token = tokenString});
+                    response = Ok(new { token = tokenString });
                 }
             }
             return response;
@@ -71,8 +71,8 @@ namespace lib_manager.Controllers
             IActionResult response = Ok(_context.UserList.ToList());
             return response;
         }
-        
-        
+
+
         private string GenerateJSONWebToken(UserModel userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"]));
@@ -83,7 +83,7 @@ namespace lib_manager.Controllers
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.username),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.username),
                 new Claim(ClaimTypes.Role, userInfo.role.ToString()),
-                new Claim(JwtRegisteredClaimNames.Aud, "Front End"), 
+                new Claim(JwtRegisteredClaimNames.Aud, "Front End"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
 
@@ -99,10 +99,10 @@ namespace lib_manager.Controllers
 
         private UserModel CreateUser(UserModel login)
         {
-            return new UserModel {username = login.username, password = login.password, role = UserModel.Role.User};
+            return new UserModel { username = login.username, password = login.password, role = UserModel.Role.User };
         }
 
-        
+
         private UserModel AuthenticateUser(UserModel data)
         {
             return _context.UserList.FirstOrDefault(x => x.username == data.username);

@@ -14,5 +14,7 @@ namespace lib_manager.Models
         public string language { get; set; }
         public DateTime publicationDate { get; set; }
         public int pageCount { get; set; }
+        
+        public int bookCount { get; set; }
     }
 }

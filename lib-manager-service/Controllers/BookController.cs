@@ -21,8 +21,6 @@ namespace lib_manager.Controllers
             _config = config;
             _context = context;
         }
-
-        
         
         [HttpPost("Add")]
         public IActionResult AddBook([FromBody] BookModel bookData)

@@ -15,15 +15,15 @@ namespace lib_manager.Controllers
     {
         private IConfiguration _config;
         private BookContext _context;
-        
+
         public BookController(IConfiguration config, BookContext context)
         {
             _config = config;
             _context = context;
         }
 
-        
-        
+
+
         [HttpPost("Add")]
         public IActionResult AddBook([FromBody] BookModel bookData)
         {
@@ -37,42 +37,51 @@ namespace lib_manager.Controllers
             }
             return response;
         }
-        
+
         private int CountBook(string bookName)
         {
             return _context.BookList.Count(x => x.bookTitle.Equals(bookName));
         }
-        
+
         [HttpGet("{bookId}")]
         private BookModel GetBook(int bookId)
         {
             return _context.BookList.FirstOrDefault(x => x.bookId == bookId);
         }
-        
+
         private BookModel CreateBook(BookModel bookData)
         {
-            return new BookModel{bookId = bookData.bookId, bookTitle = bookData.bookTitle, authorName = bookData.authorName, 
-                description = bookData.description,language = bookData.language, pageCount = bookData.pageCount, publicationDate = bookData.publicationDate, bookCount = CountBook(bookData.bookTitle)};
+            return new BookModel
+            {
+                bookId = bookData.bookId,
+                bookTitle = bookData.bookTitle,
+                authorName = bookData.authorName,
+                description = bookData.description,
+                language = bookData.language,
+                pageCount = bookData.pageCount,
+                publicationDate = bookData.publicationDate,
+                bookCount = CountBook(bookData.bookTitle)
+            };
         }
-        
+
         [AllowAnonymous]
-        [HttpPost ("Edit")]
-        
+        [HttpPost("Edit")]
+
         public IActionResult EditBook([FromBody] BookModel bookData)
         {
-            IActionResult response = StatusCode(200,"Book Entry Altered");
+            IActionResult response = StatusCode(200, "Book Entry Altered");
             var user = CreateBook(bookData);
             DeleteBook(bookData.bookId);
             _context.Add(user);
             _context.SaveChanges();
             return response;
         }
-        
+
         [AllowAnonymous]
-        [HttpPost ("Delete")]
+        [HttpPost("Delete")]
         public IActionResult DeleteBook(int bookId)
         {
-            IActionResult response = StatusCode(204,"Book Entry Removed");
+            IActionResult response = StatusCode(202, "Book Entry Removed");
             _context.Remove(_context.BookList.Single(x => x.bookId == bookId));
             _context.SaveChanges();
             return response;
@@ -84,8 +93,8 @@ namespace lib_manager.Controllers
             IActionResult response = Ok(_context.BookList.ToList());
             return response;
         }
-        
-        
-        
+
+
+
     }
 }

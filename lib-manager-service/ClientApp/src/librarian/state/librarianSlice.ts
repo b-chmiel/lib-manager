@@ -4,7 +4,7 @@ import { RootState } from "../../config/store";
 import { AddBookFormData } from "../components/AddBookForm/AddBookForm.types";
 import { Book } from "./book.types";
 import { transformToBook } from "./librarian.helpers";
-import { getBooks, postBook } from "./librarianApi";
+import { deleteBook, getBooks, postBook } from "./librarianApi";
 
 export interface LibrarianState {
   getBooks: {
@@ -13,6 +13,10 @@ export interface LibrarianState {
     books: Book[];
   };
   postBook: {
+    status: RequestStatus;
+    error: string | undefined;
+  };
+  deleteBook: {
     status: RequestStatus;
     error: string | undefined;
   };
@@ -28,6 +32,10 @@ const initialState: LibrarianState = {
     status: RequestStatus.INIT,
     error: "",
   },
+  deleteBook: {
+    status: RequestStatus.INIT,
+    error: "",
+  },
 };
 
 export const getBooksAsync = createAsyncThunk(
@@ -38,6 +46,11 @@ export const getBooksAsync = createAsyncThunk(
 export const postBookAsync = createAsyncThunk(
   "librarian/post-book",
   async (formData: AddBookFormData) => await postBook(transformToBook(formData))
+);
+
+export const deleteBookAsync = createAsyncThunk(
+  "librarian/delete-book",
+  async (bookId: number) => await deleteBook(bookId)
 );
 
 export const librarianSlice = createSlice({
@@ -66,6 +79,16 @@ export const librarianSlice = createSlice({
       .addCase(postBookAsync.rejected, (state, action) => {
         state.postBook.status = RequestStatus.FAILED;
         state.postBook.error = action.error.message;
+      })
+      .addCase(deleteBookAsync.pending, (state) => {
+        state.deleteBook.status = RequestStatus.LOADING;
+      })
+      .addCase(deleteBookAsync.fulfilled, (state) => {
+        state.deleteBook.status = RequestStatus.SUCCESS;
+      })
+      .addCase(deleteBookAsync.rejected, (state, action) => {
+        state.deleteBook.status = RequestStatus.FAILED;
+        state.deleteBook.error = action.error.message;
       });
   },
 });
@@ -80,5 +103,9 @@ export const selectPostBookStatus = (state: RootState) =>
   state.librarianReducer.postBook.status;
 export const selectPostBookError = (state: RootState) =>
   state.librarianReducer.postBook.error;
+export const selectDeleteBookStatus = (state: RootState) =>
+  state.librarianReducer.deleteBook.status;
+export const selectDeleteBookError = (state: RootState) =>
+  state.librarianReducer.deleteBook.error;
 
 export default librarianSlice.reducer;

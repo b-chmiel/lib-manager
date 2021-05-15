@@ -6,7 +6,7 @@ export interface Book {
   language: BookLanguage;
   publicationDate: string;
   pageCount: number;
-  count: number;
+  bookCount: number;
 }
 
 export enum BookLanguage {

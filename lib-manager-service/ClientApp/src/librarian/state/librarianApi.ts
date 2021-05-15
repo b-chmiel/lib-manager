@@ -15,3 +15,10 @@ export function postBook(book: Book): Promise<string> {
     .then((response) => response.data)
     .catch((error) => Promise.reject(error.response.data));
 }
+
+export function deleteBook(bookId: number): Promise<string> {
+  return axios
+    .post(`${ApiRoutes.DELETE_BOOK}?bookId=${bookId}`)
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
+}

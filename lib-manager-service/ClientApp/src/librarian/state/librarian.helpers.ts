@@ -9,6 +9,6 @@ export const transformToBook = (formData: AddBookFormData): Book => {
     language: formData.language,
     publicationDate: new Date(Number(formData.publicationDate), 1, 1),
     pageCount: formData.pageCount,
-    count: formData.count,
+    bookCount: formData.count,
   } as any) as Book;
 };

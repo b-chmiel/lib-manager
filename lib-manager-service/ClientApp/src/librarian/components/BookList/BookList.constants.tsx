@@ -1,32 +1,22 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
 import { Column } from "react-table";
-import { Author } from "../../state/book.types";
 
 export const BookListColumns = [
   {
     Header: "ID",
-    accessor: "id",
+    accessor: "bookId",
     Cell: (props: { value: number }) => <Box>{props.value}</Box>,
   },
   {
     Header: "Title",
-    accessor: "title",
-    Cell: (props: { value: string }) => <Box>{props.value}</Box>,
-  },
-  {
-    Header: "Subtitle",
-    accessor: "subtitle",
+    accessor: "bookTitle",
     Cell: (props: { value: string }) => <Box>{props.value}</Box>,
   },
   {
     Header: "Author",
-    accessor: "author",
-    Cell: (props: { value: Author }) => (
-      <Box>
-        {props.value.name} {props.value.surname}
-      </Box>
-    ),
+    accessor: "authorName",
+    Cell: (props: { value: string }) => <Box>{props.value}</Box>,
   },
   {
     Header: "Count",

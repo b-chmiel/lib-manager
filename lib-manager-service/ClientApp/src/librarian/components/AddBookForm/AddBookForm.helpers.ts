@@ -8,11 +8,8 @@ export const validate = (values: AddBookFormData) => {
   if (!values.authorName || values.authorName.trim() === "") {
     errors.authorName = i18next.t("AddBookForm.AuthorNameRequired");
   }
-  if (!values.authorSurname || values.authorSurname.trim() === "") {
-    errors.authorSurname = i18next.t("AddBookForm.AuthorSurnameRequired");
-  }
-  if (!values.title || values.title.trim() === "") {
-    errors.title = i18next.t("AddBookForm.TitleRequired");
+  if (!values.bookTitle || values.bookTitle.trim() === "") {
+    errors.bookTitle = i18next.t("AddBookForm.TitleRequired");
   }
   if (!values.pageCount) {
     errors.pageCount = i18next.t("AddBookForm.PageCountRequired");

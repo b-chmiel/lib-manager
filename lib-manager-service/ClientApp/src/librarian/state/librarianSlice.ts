@@ -3,6 +3,7 @@ import { RequestStatus } from "../../common/utils/types";
 import { RootState } from "../../config/store";
 import { AddBookFormData } from "../components/AddBookForm/AddBookForm.types";
 import { Book } from "./book.types";
+import { transformToBook } from "./librarian.helpers";
 import { getBooks, postBook } from "./librarianApi";
 
 export interface LibrarianState {
@@ -36,7 +37,7 @@ export const getBooksAsync = createAsyncThunk(
 
 export const postBookAsync = createAsyncThunk(
   "librarian/post-book",
-  async (book: AddBookFormData) => await postBook(book)
+  async (formData: AddBookFormData) => await postBook(transformToBook(formData))
 );
 
 export const librarianSlice = createSlice({

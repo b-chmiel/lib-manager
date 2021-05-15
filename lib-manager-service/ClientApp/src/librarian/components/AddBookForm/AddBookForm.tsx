@@ -1,11 +1,9 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-} from "@chakra-ui/form-control";
 import { Box } from "@chakra-ui/layout";
 import {
   Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
   Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -50,7 +48,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
     setSubmitted(false);
     setSubmitting(true);
     dispatch(postBookAsync(values)).then(() => {
-      // handlePosted();
+      handlePosted();
       setSubmitted(true);
       setSubmitting(false);
     });
@@ -113,29 +111,19 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
           } = props;
           return (
             <form onSubmit={handleSubmit}>
-              <FormControl isInvalid={!!(errors.title && touched.title)}>
+              <FormControl
+                isInvalid={!!(errors.bookTitle && touched.bookTitle)}
+              >
                 <FormLabel>{t("AddBookForm.BookTitle")}</FormLabel>
                 <Input
                   type={"text"}
                   placeholder={""}
-                  name={"title"}
-                  value={values.title}
+                  name={"bookTitle"}
+                  value={values.bookTitle}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                <FormErrorMessage>{errors.title}</FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={!!(errors.subtitle && touched.subtitle)}>
-                <FormLabel>{t("AddBookForm.BookSubtitle")}</FormLabel>
-                <Input
-                  type={"text"}
-                  placeholder={""}
-                  name={"subtitle"}
-                  value={values.subtitle}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <FormErrorMessage>{errors.subtitle}</FormErrorMessage>
+                <FormErrorMessage>{errors.bookTitle}</FormErrorMessage>
               </FormControl>
               <FormControl
                 isInvalid={!!(errors.authorName && touched.authorName)}
@@ -152,20 +140,6 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                 <FormErrorMessage>{errors.authorName}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!(errors.authorSurname && touched.authorSurname)}
-              >
-                <FormLabel>{t("AddBookForm.AuthorSurname")}</FormLabel>
-                <Input
-                  type={"text"}
-                  placeholder={""}
-                  name={"authorSurname"}
-                  value={values.authorSurname}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <FormErrorMessage>{errors.authorSurname}</FormErrorMessage>
-              </FormControl>
-              <FormControl
                 isInvalid={!!(errors.description && touched.description)}
               >
                 <FormLabel>{t("AddBookForm.BookDescription")}</FormLabel>
@@ -179,20 +153,6 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                 />
                 <FormErrorMessage>{errors.description}</FormErrorMessage>
               </FormControl>
-              <FormControl
-                isInvalid={!!(errors.bookSeriesName && touched.bookSeriesName)}
-              >
-                <FormLabel>{t("AddBookForm.BookSeriesName")}</FormLabel>
-                <Input
-                  type={"text"}
-                  placeholder={""}
-                  name={"bookSeriesName"}
-                  value={values.bookSeriesName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <FormErrorMessage>{errors.bookSeriesName}</FormErrorMessage>
-              </FormControl>
               <FormControl isInvalid={!!(errors.language && touched.language)}>
                 <FormLabel>{t("AddBookForm.BookLanguage")}</FormLabel>
                 <Select
@@ -202,13 +162,16 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                   onBlur={handleBlur}
                 >
                   <option value={BookLanguage.ENGLISH}>
-                    {t("AddBookForm.BookLanguage.English")}
+                    {t("AddBookForm.Languages.English")}
                   </option>
                   <option value={BookLanguage.FRENCH}>
-                    {t("AddBookForm.BookLanguage.French")}
+                    {t("AddBookForm.Languages.French")}
                   </option>
                   <option value={BookLanguage.POLISH}>
-                    {t("AddBookForm.BookLanguage.Polish")}
+                    {t("AddBookForm.Languages.Polish")}
+                  </option>
+                  <option value={BookLanguage.GERMAN}>
+                    {t("AddBookForm.Languages.German")}
                   </option>
                 </Select>
                 <FormErrorMessage>{errors.language}</FormErrorMessage>

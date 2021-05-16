@@ -22,13 +22,11 @@ namespace lib_manager.Controllers
             _context = context;
         }
 
-
-
         [HttpPost("Add")]
         public IActionResult AddBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(409, "Book Already Exists");
-            var temp = GetBook(bookData.bookId);
+            var temp = CheckBook(bookData.bookTitle);
             if (temp == null)
             {
                 _context.BookList.Add(CreateBook(bookData));
@@ -38,35 +36,26 @@ namespace lib_manager.Controllers
             return response;
         }
 
-        private int CountBook(string bookName)
-        {
-            return _context.BookList.Count(x => x.bookTitle.Equals(bookName));
-        }
-
         [HttpGet("{bookId}")]
         private BookModel GetBook(int bookId)
         {
             return _context.BookList.FirstOrDefault(x => x.bookId == bookId);
         }
-
+        
+        private BookModel CheckBook(string title)
+        {
+            return _context.BookList.FirstOrDefault(x => x.bookTitle.Equals(title));
+        }
+        
         private BookModel CreateBook(BookModel bookData)
         {
-            return new BookModel
-            {
-                bookId = bookData.bookId,
-                bookTitle = bookData.bookTitle,
-                authorName = bookData.authorName,
-                description = bookData.description,
-                language = bookData.language,
-                pageCount = bookData.pageCount,
-                publicationDate = bookData.publicationDate,
-                bookCount = CountBook(bookData.bookTitle)
-            };
+            return new BookModel{bookId = bookData.bookId, bookTitle = bookData.bookTitle, authorName = bookData.authorName, 
+                description = bookData.description,language = bookData.language, pageCount = bookData.pageCount, publicationDate = bookData.publicationDate, bookCount = bookData.bookCount};
+
         }
 
         [AllowAnonymous]
         [HttpPost("Edit")]
-
         public IActionResult EditBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(200, "Book Entry Altered");
@@ -78,7 +67,7 @@ namespace lib_manager.Controllers
         }
 
         [AllowAnonymous]
-        [HttpPost("Delete")]
+        [HttpDelete ("Delete")]
         public IActionResult DeleteBook(int bookId)
         {
             IActionResult response = StatusCode(202, "Book Entry Removed");
@@ -93,8 +82,6 @@ namespace lib_manager.Controllers
             IActionResult response = Ok(_context.BookList.ToList());
             return response;
         }
-
-
 
     }
 }

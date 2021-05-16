@@ -16,7 +16,7 @@ def getBook():
     data["language"] = "0"
     data["publicationDate"] = "2021-05-15T15:57:01.614Z"
     data["pageCount"] = random.randint(1, 200)
-    data["bookCount"] = random.randint(1, 200)
+    data["bookCount"] = random.randint(1, 20)
 
     return data
 

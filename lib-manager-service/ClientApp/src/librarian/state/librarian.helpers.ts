@@ -1,8 +1,9 @@
-import { AddBookFormData } from "../components/AddBookForm/AddBookForm.types";
+import { BookFormData } from "../components/BookForm/BookForm.types";
 import { Book } from "./book.types";
 
-export const transformToBook = (formData: AddBookFormData): Book => {
+export const transformToBook = (formData: BookFormData): Book => {
   return ({
+    bookId: formData.bookId ?? 0,
     authorName: formData.authorName,
     bookTitle: formData.bookTitle,
     description: formData.description,

@@ -9,15 +9,21 @@ import {
 } from "@chakra-ui/modal";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { AddBookForm } from "../AddBookForm";
-import "./AddBookModal.fix.css";
+import {
+  postBookAsync,
+  selectPostBookError,
+  selectPostBookStatus,
+} from "../../state/librarianSlice";
+import { BookForm } from "../BookForm";
+import { initialValues } from "./BookModal.constants";
+import "./BookModal.css";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const AddBookModal: React.FC<Props> = ({ isOpen, onClose }) => {
+export const BookModal: React.FC<Props> = ({ isOpen, onClose }) => {
   const { t } = useTranslation();
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
@@ -27,7 +33,13 @@ export const AddBookModal: React.FC<Props> = ({ isOpen, onClose }) => {
 
         <ModalCloseButton />
         <ModalBody>
-          <AddBookForm onClose={onClose} />
+          <BookForm
+            onClose={onClose}
+            actionToDispatch={postBookAsync}
+            initialValues={initialValues}
+            statusSelector={selectPostBookStatus}
+            errorSelector={selectPostBookError}
+          />
         </ModalBody>
 
         <ModalFooter></ModalFooter>

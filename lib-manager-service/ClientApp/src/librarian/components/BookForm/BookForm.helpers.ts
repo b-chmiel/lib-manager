@@ -1,9 +1,9 @@
 import { FormikErrors } from "formik";
 import i18next from "i18next";
-import { AddBookFormData } from "./AddBookForm.types";
+import { BookFormData } from "./BookForm.types";
 
-export const validate = (values: AddBookFormData) => {
-  const errors: FormikErrors<AddBookFormData> = {};
+export const validate = (values: BookFormData) => {
+  const errors: FormikErrors<BookFormData> = {};
 
   if (!values.authorName || values.authorName.trim() === "") {
     errors.authorName = i18next.t("AddBookForm.AuthorNameRequired");

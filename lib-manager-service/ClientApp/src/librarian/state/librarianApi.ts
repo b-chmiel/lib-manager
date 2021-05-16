@@ -22,3 +22,10 @@ export function deleteBook(bookId: number): Promise<string> {
     .then((response) => response.data)
     .catch((error) => Promise.reject(error.response.data));
 }
+
+export function editBook(book: Book): Promise<string> {
+  return axios
+    .post(ApiRoutes.PUT_BOOK, { ...book })
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
+}

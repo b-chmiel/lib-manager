@@ -1,6 +1,7 @@
 import { BookLanguage } from "../../state/book.types";
 
-export interface AddBookFormData {
+export interface BookFormData {
+  bookId: number;
   authorName: string;
   bookTitle: string;
   description: string;

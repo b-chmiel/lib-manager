@@ -13,42 +13,50 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
+import { AsyncThunkAction } from "@reduxjs/toolkit";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RequestStatus } from "../../../common/utils/types";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
+import { RootState } from "../../../config/store";
 import { BookLanguage } from "../../state/book.types";
-import {
-  getBooksAsync,
-  postBookAsync,
-  selectPostBookError,
-  selectPostBookStatus,
-} from "../../state/librarianSlice";
-import { initialValues } from "./AddBookForm.constants";
-import { validate } from "./AddBookForm.helpers";
-import { AddBookFormData } from "./AddBookForm.types";
+import { getBooksAsync } from "../../state/librarianSlice";
+import { validate } from "./BookForm.helpers";
+import { BookFormData } from "./BookForm.types";
 
 interface Props {
   onClose: () => void;
+  actionToDispatch: (
+    d: BookFormData
+  ) => AsyncThunkAction<string, BookFormData, {}>;
+  initialValues: BookFormData;
+  statusSelector: (state: RootState) => RequestStatus;
+  errorSelector: (state: RootState) => string | undefined;
 }
 
-export const AddBookForm: React.FC<Props> = ({ onClose }) => {
+export const BookForm: React.FC<Props> = ({
+  onClose,
+  actionToDispatch,
+  initialValues,
+  statusSelector,
+  errorSelector,
+}) => {
   const dispatch = useAppDispatch();
-  const status = useAppSelector(selectPostBookStatus);
-  const error = useAppSelector(selectPostBookError);
+  const status = useAppSelector(statusSelector);
+  const error = useAppSelector(errorSelector);
   const { t } = useTranslation();
   const toast = useToast();
   const [isSubmitted, setSubmitted] = useState(false);
 
   const handleSubmit = (
-    values: AddBookFormData,
-    { setSubmitting }: FormikHelpers<AddBookFormData>
+    values: BookFormData,
+    { setSubmitting }: FormikHelpers<BookFormData>
   ) => {
     setSubmitted(false);
     setSubmitting(true);
-    dispatch(postBookAsync(values)).then(() => {
-      handlePosted();
+    dispatch(actionToDispatch(values)).then(() => {
+      handleSubmittion();
       setSubmitted(true);
       setSubmitting(false);
     });
@@ -56,12 +64,12 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     if (isSubmitted) {
-      handlePosted();
+      handleSubmittion();
     }
     //eslint-disable-next-line
   }, [status, isSubmitted]);
 
-  const handlePosted = () => {
+  const handleSubmittion = () => {
     if (status === RequestStatus.FAILED) {
       errorToast();
     } else if (status === RequestStatus.SUCCESS) {
@@ -73,7 +81,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
 
   const errorToast = () => {
     toast({
-      title: "Post failed.",
+      title: "Action failed.",
       description: error,
       status: "error",
       duration: 3000,
@@ -83,7 +91,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
 
   const successToast = () => {
     toast({
-      title: "Post success.",
+      title: "Action success.",
       status: "success",
       duration: 3000,
       isClosable: true,

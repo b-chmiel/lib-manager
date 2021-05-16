@@ -2,7 +2,7 @@ import { Button } from "@chakra-ui/button";
 import { Box, useDisclosure } from "@chakra-ui/react";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { AddBookModal } from "../AddBookModal";
+import { BookModal } from "../BookModal";
 
 export const BookControls = () => {
   const { t } = useTranslation();
@@ -13,7 +13,7 @@ export const BookControls = () => {
   return (
     <Box marginTop={4} marginBottom={4}>
       <Button onClick={handleAddBookClick}>{t("AddBook")}</Button>
-      <AddBookModal isOpen={isOpen} onClose={onClose} />
+      <BookModal isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 };

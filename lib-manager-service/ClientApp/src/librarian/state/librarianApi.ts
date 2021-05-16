@@ -1,19 +1,31 @@
-import { AddBookFormData } from "../components/AddBookForm/AddBookForm.types";
+import axios from "axios";
+import { ApiRoutes } from "../../routing/routes";
 import { Book } from "./book.types";
-import { mockedBooks } from "./librarianApi.mocks";
 
 export function getBooks(): Promise<Book[]> {
-  return new Promise<Book[]>((resolve) =>
-    setTimeout(() => resolve(mockedBooks), 500)
-  );
+  return axios
+    .get(ApiRoutes.GET_BOOKS)
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
 }
 
-export function postBook(book: AddBookFormData): Promise<string> {
-  return new Promise<string>((resolve) =>
-    setTimeout(() => {
-      console.log("Post book");
-      console.log(book);
-      resolve("Success");
-    }, 100)
-  );
+export function postBook(book: Book): Promise<string> {
+  return axios
+    .post(ApiRoutes.POST_BOOK, { ...book })
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
+}
+
+export function deleteBook(bookId: number): Promise<string> {
+  return axios
+    .post(`${ApiRoutes.DELETE_BOOK}?bookId=${bookId}`)
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
+}
+
+export function editBook(book: Book): Promise<string> {
+  return axios
+    .post(ApiRoutes.PUT_BOOK, { ...book })
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
 }

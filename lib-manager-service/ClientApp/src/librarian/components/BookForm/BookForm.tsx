@@ -1,11 +1,9 @@
-import {
-  FormControl,
-  FormErrorMessage,
-  FormLabel,
-} from "@chakra-ui/form-control";
 import { Box } from "@chakra-ui/layout";
 import {
   Button,
+  FormControl,
+  FormErrorMessage,
+  FormLabel,
   Input,
   NumberDecrementStepper,
   NumberIncrementStepper,
@@ -15,42 +13,50 @@ import {
   Select,
   useToast,
 } from "@chakra-ui/react";
+import { AsyncThunkAction } from "@reduxjs/toolkit";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { RequestStatus } from "../../../common/utils/types";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
+import { RootState } from "../../../config/store";
 import { BookLanguage } from "../../state/book.types";
-import {
-  getBooksAsync,
-  postBookAsync,
-  selectPostBookError,
-  selectPostBookStatus,
-} from "../../state/librarianSlice";
-import { initialValues } from "./AddBookForm.constants";
-import { validate } from "./AddBookForm.helpers";
-import { AddBookFormData } from "./AddBookForm.types";
+import { getBooksAsync } from "../../state/librarianSlice";
+import { validate } from "./BookForm.helpers";
+import { BookFormData } from "./BookForm.types";
 
 interface Props {
   onClose: () => void;
+  actionToDispatch: (
+    d: BookFormData
+  ) => AsyncThunkAction<string, BookFormData, {}>;
+  initialValues: BookFormData;
+  statusSelector: (state: RootState) => RequestStatus;
+  errorSelector: (state: RootState) => string | undefined;
 }
 
-export const AddBookForm: React.FC<Props> = ({ onClose }) => {
+export const BookForm: React.FC<Props> = ({
+  onClose,
+  actionToDispatch,
+  initialValues,
+  statusSelector,
+  errorSelector,
+}) => {
   const dispatch = useAppDispatch();
-  const status = useAppSelector(selectPostBookStatus);
-  const error = useAppSelector(selectPostBookError);
+  const status = useAppSelector(statusSelector);
+  const error = useAppSelector(errorSelector);
   const { t } = useTranslation();
   const toast = useToast();
   const [isSubmitted, setSubmitted] = useState(false);
 
   const handleSubmit = (
-    values: AddBookFormData,
-    { setSubmitting }: FormikHelpers<AddBookFormData>
+    values: BookFormData,
+    { setSubmitting }: FormikHelpers<BookFormData>
   ) => {
     setSubmitted(false);
     setSubmitting(true);
-    dispatch(postBookAsync(values)).then(() => {
-      // handlePosted();
+    dispatch(actionToDispatch(values)).then(() => {
+      handleSubmittion();
       setSubmitted(true);
       setSubmitting(false);
     });
@@ -58,12 +64,12 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
 
   useEffect(() => {
     if (isSubmitted) {
-      handlePosted();
+      handleSubmittion();
     }
     //eslint-disable-next-line
   }, [status, isSubmitted]);
 
-  const handlePosted = () => {
+  const handleSubmittion = () => {
     if (status === RequestStatus.FAILED) {
       errorToast();
     } else if (status === RequestStatus.SUCCESS) {
@@ -75,7 +81,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
 
   const errorToast = () => {
     toast({
-      title: "Post failed.",
+      title: "Action failed.",
       description: error,
       status: "error",
       duration: 3000,
@@ -85,7 +91,7 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
 
   const successToast = () => {
     toast({
-      title: "Post success.",
+      title: "Action success.",
       status: "success",
       duration: 3000,
       isClosable: true,
@@ -113,29 +119,19 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
           } = props;
           return (
             <form onSubmit={handleSubmit}>
-              <FormControl isInvalid={!!(errors.title && touched.title)}>
+              <FormControl
+                isInvalid={!!(errors.bookTitle && touched.bookTitle)}
+              >
                 <FormLabel>{t("AddBookForm.BookTitle")}</FormLabel>
                 <Input
                   type={"text"}
                   placeholder={""}
-                  name={"title"}
-                  value={values.title}
+                  name={"bookTitle"}
+                  value={values.bookTitle}
                   onChange={handleChange}
                   onBlur={handleBlur}
                 />
-                <FormErrorMessage>{errors.title}</FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={!!(errors.subtitle && touched.subtitle)}>
-                <FormLabel>{t("AddBookForm.BookSubtitle")}</FormLabel>
-                <Input
-                  type={"text"}
-                  placeholder={""}
-                  name={"subtitle"}
-                  value={values.subtitle}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <FormErrorMessage>{errors.subtitle}</FormErrorMessage>
+                <FormErrorMessage>{errors.bookTitle}</FormErrorMessage>
               </FormControl>
               <FormControl
                 isInvalid={!!(errors.authorName && touched.authorName)}
@@ -152,20 +148,6 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                 <FormErrorMessage>{errors.authorName}</FormErrorMessage>
               </FormControl>
               <FormControl
-                isInvalid={!!(errors.authorSurname && touched.authorSurname)}
-              >
-                <FormLabel>{t("AddBookForm.AuthorSurname")}</FormLabel>
-                <Input
-                  type={"text"}
-                  placeholder={""}
-                  name={"authorSurname"}
-                  value={values.authorSurname}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <FormErrorMessage>{errors.authorSurname}</FormErrorMessage>
-              </FormControl>
-              <FormControl
                 isInvalid={!!(errors.description && touched.description)}
               >
                 <FormLabel>{t("AddBookForm.BookDescription")}</FormLabel>
@@ -179,20 +161,6 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                 />
                 <FormErrorMessage>{errors.description}</FormErrorMessage>
               </FormControl>
-              <FormControl
-                isInvalid={!!(errors.bookSeriesName && touched.bookSeriesName)}
-              >
-                <FormLabel>{t("AddBookForm.BookSeriesName")}</FormLabel>
-                <Input
-                  type={"text"}
-                  placeholder={""}
-                  name={"bookSeriesName"}
-                  value={values.bookSeriesName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                />
-                <FormErrorMessage>{errors.bookSeriesName}</FormErrorMessage>
-              </FormControl>
               <FormControl isInvalid={!!(errors.language && touched.language)}>
                 <FormLabel>{t("AddBookForm.BookLanguage")}</FormLabel>
                 <Select
@@ -202,13 +170,16 @@ export const AddBookForm: React.FC<Props> = ({ onClose }) => {
                   onBlur={handleBlur}
                 >
                   <option value={BookLanguage.ENGLISH}>
-                    {t("AddBookForm.BookLanguage.English")}
+                    {t("AddBookForm.Languages.English")}
                   </option>
                   <option value={BookLanguage.FRENCH}>
-                    {t("AddBookForm.BookLanguage.French")}
+                    {t("AddBookForm.Languages.French")}
                   </option>
                   <option value={BookLanguage.POLISH}>
-                    {t("AddBookForm.BookLanguage.Polish")}
+                    {t("AddBookForm.Languages.Polish")}
+                  </option>
+                  <option value={BookLanguage.GERMAN}>
+                    {t("AddBookForm.Languages.German")}
                   </option>
                 </Select>
                 <FormErrorMessage>{errors.language}</FormErrorMessage>

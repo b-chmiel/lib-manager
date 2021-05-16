@@ -35,6 +35,12 @@ const resources = {
         PublicationDate: "Publication date",
         PageCount: "Page count",
         BookCount: "Book count",
+        Languages: {
+          English: "English",
+          Polish: "Polish",
+          German: "German",
+          French: "French",
+        },
       },
       Menu: {
         Title: "Lib manager",

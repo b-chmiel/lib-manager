@@ -1,15 +1,12 @@
 import { BookLanguage } from "../../state/book.types";
-import { AddBookFormData } from "./AddBookForm.types";
+import { BookFormData } from "../BookForm/BookForm.types";
 
-export const initialValues: AddBookFormData = {
+export const initialValues: BookFormData = {
   authorName: "",
-  authorSurname: "",
-  title: "",
-  subtitle: "",
+  bookTitle: "",
   description: "",
   language: BookLanguage.ENGLISH,
   publicationDate: 2005,
   pageCount: 0,
-  bookSeriesName: "",
   count: 0,
 };

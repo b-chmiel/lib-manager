@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using lib_manager.Database;
 using lib_manager.Models;
@@ -58,11 +59,9 @@ namespace lib_manager.Controllers
         
         [HttpPost ("GetReserves")]
         
-        public IActionResult GetAll(string username)
+        public List<ReservationModel> GetAll(string username)
         {
-            IActionResult response = StatusCode(200,"Book Entry Altered");
-            var biggerResult = _context.ReservationList.Where( x => x.username.Equals(username) ).ToList();
-            return response;
+            return _context.ReservationList.Where( x => x.username.Equals(username) ).ToList();;
         }
         
         

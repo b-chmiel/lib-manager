@@ -1,15 +1,14 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import { UserType } from "../auth/state/auth.types";
 import {
   selectAuthUserType,
   selectIsAuthenticated,
 } from "../auth/state/authSelectors";
 import LoginView from "../auth/views/LoginView/LoginView";
 import RegisterView from "../auth/views/RegisterView/RegisterView";
+import { BookInventoryView } from "../books/views/BookInventoryView";
 import { Menu } from "../common/components/Menu/Menu";
 import { useAppSelector } from "../config/hooks";
-import { BookInventoryView } from "../librarian/views/BookInventoryView";
 import { getBaseName } from "./AppRouter.helpers";
 import { Routes } from "./routes";
 
@@ -26,11 +25,7 @@ export const AppRouter: React.FC = () => {
         </Route>
         <Route path={Routes.HOME_PAGE}>
           <Menu>
-            {userType === UserType.LIBRARIAN ? (
-              <BookInventoryView />
-            ) : (
-              <>Reader view</>
-            )}
+            <BookInventoryView />
           </Menu>
         </Route>
         <Route path={Routes.LOGIN}>

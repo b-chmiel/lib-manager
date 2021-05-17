@@ -1,19 +1,20 @@
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { UserType } from "../../../auth/state/auth.types";
+import { selectAuthUserType } from "../../../auth/state/authSelectors";
 import { Table } from "../../../common/components/Table";
 import { RequestStatus } from "../../../common/utils/types";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
-import { Book } from "../../state/book.types";
+import { Book } from "../../state/books/book.types";
 import {
-  deleteBookAsync,
-  getBooksAsync,
   selectDeleteBookError,
   selectDeleteBookStatus,
-} from "../../state/librarianSlice";
+} from "../../state/books/bookSelectors";
+import { deleteBookAsync, getBooksAsync } from "../../state/books/bookThunks";
 import { BookFormData } from "../BookForm/BookForm.types";
 import { BookModalEdit } from "../BookModalEdit";
-import { BookListColumns } from "./BookList.constants";
-import { getBookById } from "./BookList.helpers.ts";
+import { BookListColumns, ReaderListColumns } from "./BookList.constants";
+import { getBookById } from "./BookList.helpers";
 
 interface Props {
   books: Book[];
@@ -23,11 +24,13 @@ export const BookList: React.FC<Props> = ({ books }) => {
   const dispatch = useAppDispatch();
   const status = useAppSelector(selectDeleteBookStatus);
   const error = useAppSelector(selectDeleteBookError);
+  const userType = useAppSelector(selectAuthUserType);
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [bookToEdit, setBookToEdit] = useState<BookFormData | undefined>(
     undefined
   );
+  const reservedBooks = [] as BookFormData[];
 
   const onDelete = (bookId: number) => dispatch(deleteBookAsync(bookId));
 
@@ -80,9 +83,17 @@ export const BookList: React.FC<Props> = ({ books }) => {
     handleDeleted();
   }, [status]);
 
+  const onReservation = (bookId: number) => {};
+  const onCancelReservation = (bookId: number) => {};
+
+  const getBookListColumns = () =>
+    userType === UserType.LIBRARIAN
+      ? BookListColumns(onEdit, onDelete)
+      : ReaderListColumns(onReservation, onCancelReservation, reservedBooks);
+
   return (
     <>
-      <Table data={books ?? []} columns={BookListColumns(onEdit, onDelete)} />
+      <Table data={books ?? []} columns={getBookListColumns()} />
       <BookModalEdit isOpen={isOpen} onClose={onClose} book={bookToEdit} />
     </>
   );

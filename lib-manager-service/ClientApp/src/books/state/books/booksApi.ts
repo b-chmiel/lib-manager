@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiRoutes } from "../../routing/routes";
+import { ApiRoutes } from "../../../routing/routes";
 import { Book } from "./book.types";
 
 export function getBooks(): Promise<Book[]> {

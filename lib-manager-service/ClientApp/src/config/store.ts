@@ -1,9 +1,10 @@
 import { Action, configureStore, ThunkAction } from "@reduxjs/toolkit";
 import authReducer from "../auth/state/authSlice";
-import librarianReducer from "../librarian/state/librarianSlice";
+import booksReducer from "../books/state/books/booksSlice";
+import reservationsReducer from "../books/state/reservations/reservationsSlice";
 
 export const store = configureStore({
-  reducer: { authReducer, librarianReducer },
+  reducer: { authReducer, booksReducer, reservationsReducer },
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

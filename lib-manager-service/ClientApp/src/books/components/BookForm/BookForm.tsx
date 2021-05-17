@@ -20,8 +20,8 @@ import { useTranslation } from "react-i18next";
 import { RequestStatus } from "../../../common/utils/types";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
 import { RootState } from "../../../config/store";
-import { BookLanguage } from "../../state/book.types";
-import { getBooksAsync } from "../../state/librarianSlice";
+import { BookLanguage } from "../../state/books/book.types";
+import { getBooksAsync } from "../../state/books/bookThunks";
 import { validate } from "./BookForm.helpers";
 import { BookFormData } from "./BookForm.types";
 

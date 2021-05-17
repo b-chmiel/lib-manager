@@ -1,12 +1,14 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RequestStatus } from "../../common/utils/types";
-import { RootState } from "../../config/store";
-import { BookFormData } from "../components/BookForm/BookForm.types";
+import { createSlice } from "@reduxjs/toolkit";
+import { RequestStatus } from "../../../common/utils/types";
 import { Book } from "./book.types";
-import { transformToBook } from "./librarian.helpers";
-import { deleteBook, editBook, getBooks, postBook } from "./librarianApi";
+import {
+  deleteBookAsync,
+  editBookAsync,
+  getBooksAsync,
+  postBookAsync,
+} from "./bookThunks";
 
-export interface LibrarianState {
+export interface BookState {
   getBooks: {
     status: RequestStatus;
     error: string | undefined;
@@ -26,7 +28,7 @@ export interface LibrarianState {
   };
 }
 
-const initialState: LibrarianState = {
+const initialState: BookState = {
   getBooks: {
     status: RequestStatus.INIT,
     error: "",
@@ -46,28 +48,8 @@ const initialState: LibrarianState = {
   },
 };
 
-export const getBooksAsync = createAsyncThunk(
-  "librarian/get-books",
-  async () => await getBooks()
-);
-
-export const postBookAsync = createAsyncThunk(
-  "librarian/post-book",
-  async (formData: BookFormData) => await postBook(transformToBook(formData))
-);
-
-export const deleteBookAsync = createAsyncThunk(
-  "librarian/delete-book",
-  async (bookId: number) => await deleteBook(bookId)
-);
-
-export const editBookAsync = createAsyncThunk(
-  "librarian/edit-book",
-  async (formData: BookFormData) => await editBook(transformToBook(formData))
-);
-
-export const librarianSlice = createSlice({
-  name: "librarian",
+export const booksSlice = createSlice({
+  name: "books",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -116,23 +98,4 @@ export const librarianSlice = createSlice({
   },
 });
 
-export const selectGetBooks = (state: RootState) =>
-  state.librarianReducer.getBooks.books;
-export const selectGetBooksStatus = (state: RootState) =>
-  state.librarianReducer.getBooks.status;
-export const selectGetBooksError = (state: RootState) =>
-  state.librarianReducer.getBooks.error;
-export const selectPostBookStatus = (state: RootState) =>
-  state.librarianReducer.postBook.status;
-export const selectPostBookError = (state: RootState) =>
-  state.librarianReducer.postBook.error;
-export const selectDeleteBookStatus = (state: RootState) =>
-  state.librarianReducer.deleteBook.status;
-export const selectDeleteBookError = (state: RootState) =>
-  state.librarianReducer.deleteBook.error;
-export const selectEditBookStatus = (state: RootState) =>
-  state.librarianReducer.editBook.status;
-export const selectEditBookError = (state: RootState) =>
-  state.librarianReducer.editBook.error;
-
-export default librarianSlice.reducer;
+export default booksSlice.reducer;

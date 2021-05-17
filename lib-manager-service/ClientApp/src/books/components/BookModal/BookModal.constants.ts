@@ -1,4 +1,4 @@
-import { BookLanguage } from "../../state/book.types";
+import { BookLanguage } from "../../state/books/book.types";
 import { BookFormData } from "../BookForm/BookForm.types";
 
 export const initialValues: BookFormData = {

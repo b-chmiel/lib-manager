@@ -26,10 +26,10 @@ namespace lib_manager.Controllers
         
         [HttpPost ("CreateR")]
         
-        public IActionResult CreateReservation(int bookId, int userId)
+        public IActionResult CreateReservation(int bookId, string username)
         {
             IActionResult response = StatusCode(201,"Reservation Created");
-            var temp = new ReservationModel{bookId = bookId, userId = userId, reservationStart = DateTime.Now};
+            var temp = new ReservationModel{bookId = bookId, username = username, reservationStart = DateTime.Now};
             _context.Add(temp);
             _context.SaveChanges();
             return response;
@@ -58,10 +58,10 @@ namespace lib_manager.Controllers
         
         [HttpPost ("GetReserves")]
         
-        public IActionResult GetAll(int userId)
+        public IActionResult GetAll(string username)
         {
             IActionResult response = StatusCode(200,"Book Entry Altered");
-            var biggerResult = _context.ReservationList.Where( x => x.userId==userId ).ToList();
+            var biggerResult = _context.ReservationList.Where( x => x.username.Equals(username) ).ToList();
             return response;
         }
         

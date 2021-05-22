@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using lib_manager.Database;
 using lib_manager.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -42,6 +43,12 @@ namespace lib_manager.Controllers
             return _context.BookList.FirstOrDefault(x => x.bookId == bookId);
         }
         
+        [HttpGet("{title}")]
+        private BookModel SearchBook(string title)
+        {
+            return _context.BookList.FirstOrDefault(x => x.bookTitle.Equals(title));
+        }
+        
         private BookModel CheckBook(string title)
         {
             return _context.BookList.FirstOrDefault(x => x.bookTitle.Equals(title));
@@ -79,6 +86,7 @@ namespace lib_manager.Controllers
         [HttpGet("BookList")]
         public IActionResult Books()
         {
+            //Console.WriteLine(_context.BookList.ToList());
             IActionResult response = Ok(_context.BookList.ToList());
             return response;
         }

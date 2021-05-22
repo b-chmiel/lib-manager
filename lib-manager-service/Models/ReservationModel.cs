@@ -8,7 +8,7 @@ namespace lib_manager.Models
         [Key]
         public int reservationID { get; set; }
         public int bookId { get; set; }
-        public int userId { get; set; }
+        public string username { get; set; }
         public DateTime reservationStart { get; set; }
         public DateTime reservationEnd { get; set; }
     }

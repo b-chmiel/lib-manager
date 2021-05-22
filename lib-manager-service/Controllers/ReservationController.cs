@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using lib_manager.Database;
 using lib_manager.Models;
@@ -26,10 +27,10 @@ namespace lib_manager.Controllers
         
         [HttpPost ("CreateR")]
         
-        public IActionResult CreateReservation(int bookId, int userId)
+        public IActionResult CreateReservation(int bookId, string username)
         {
-            IActionResult response = StatusCode(201,"Reservation Created");//which code?
-            var temp = new ReservationModel{bookId = bookId, userId = userId, reservationStart = DateTime.Now};
+            IActionResult response = StatusCode(201,"Reservation Created");
+            var temp = new ReservationModel{bookId = bookId, username = username, reservationStart = DateTime.Now};
             _context.Add(temp);
             _context.SaveChanges();
             return response;
@@ -48,7 +49,7 @@ namespace lib_manager.Controllers
         
         public IActionResult DeleteReservation(int reservationId)
         {
-            IActionResult response = StatusCode(204,"Reservation Deleted");
+            IActionResult response = StatusCode(202,"Reservation Deleted");
             _context.Remove(_context.ReservationList.Single(x => x.reservationID == reservationId));
             _context.SaveChanges();
             return response;
@@ -58,11 +59,9 @@ namespace lib_manager.Controllers
         
         [HttpPost ("GetReserves")]
         
-        public IActionResult GetAll(int userId)
+        public List<ReservationModel> GetAll(string username)
         {
-            IActionResult response = StatusCode(200,"Book Entry Altered");//which code?
-            var biggerResult = _context.ReservationList.Where( x => x.userId==userId ).ToList();
-            return response;
+            return _context.ReservationList.Where( x => x.username.Equals(username) ).ToList();;
         }
         
         

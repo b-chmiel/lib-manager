@@ -28,8 +28,7 @@ namespace lib_manager.Controllers
             _config = config;
             _context = context;
         }
-
-
+        
         [AllowAnonymous]
         [HttpPost("Register")]
 
@@ -58,6 +57,7 @@ namespace lib_manager.Controllers
             {
                 if (user.password.Equals(login.password))
                 {
+                    login.role = GetRole(login.username);
                     var tokenString = GenerateJSONWebToken(login);
                     response = Ok(new { token = tokenString });
                 }
@@ -65,6 +65,12 @@ namespace lib_manager.Controllers
             return response;
         }
 
+        private UserModel.Role GetRole(string username)
+        {
+            var temp = _context.UserList.First(x => x.username == username);
+            return temp.role;
+        }
+        
         [HttpGet("UserList")]
         public IActionResult Users()
         {
@@ -82,7 +88,7 @@ namespace lib_manager.Controllers
             {
                 new Claim(JwtRegisteredClaimNames.Sub, userInfo.username),
                 new Claim(JwtRegisteredClaimNames.Email, userInfo.username),
-                new Claim(ClaimTypes.Role, userInfo.role.ToString()),
+                new Claim("Role", userInfo.role.ToString()),
                 new Claim(JwtRegisteredClaimNames.Aud, "Front End"),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };

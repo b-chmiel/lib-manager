@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ApiRoutes } from "../../routing/routes";
+import { ApiRoutes } from "../../../routing/routes";
 import { Book } from "./book.types";
 
 export function getBooks(): Promise<Book[]> {
@@ -18,7 +18,7 @@ export function postBook(book: Book): Promise<string> {
 
 export function deleteBook(bookId: number): Promise<string> {
   return axios
-    .post(`${ApiRoutes.DELETE_BOOK}?bookId=${bookId}`)
+    .delete(`${ApiRoutes.DELETE_BOOK}?bookId=${bookId}`)
     .then((response) => response.data)
     .catch((error) => Promise.reject(error.response.data));
 }

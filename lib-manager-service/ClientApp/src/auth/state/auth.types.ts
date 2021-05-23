@@ -35,7 +35,7 @@ export interface ParsedJwtToken {
   aud: string[];
   email: string;
   exp: number;
-  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+  Role: string;
   iss: string;
   jti: string;
   sub: string;

@@ -10,8 +10,8 @@ using lib_manager.Database;
 namespace lib_manager.Migrations
 {
     [DbContext(typeof(BookContext))]
-    [Migration("20210515141717_AddBook")]
-    partial class AddBook
+    [Migration("20210523223309_FixReservationTypes")]
+    partial class FixReservationTypes
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -75,36 +75,6 @@ namespace lib_manager.Migrations
                             language = "German",
                             pageCount = 58,
                             publicationDate = new DateTime(1915, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
-                        });
-                });
-
-            modelBuilder.Entity("lib_manager.Models.UserModel", b =>
-                {
-                    b.Property<string>("username")
-                        .HasColumnType("text");
-
-                    b.Property<string>("password")
-                        .HasColumnType("text");
-
-                    b.Property<int>("role")
-                        .HasColumnType("integer");
-
-                    b.HasKey("username");
-
-                    b.ToTable("UserModel");
-
-                    b.HasData(
-                        new
-                        {
-                            username = "test1@gmail.com",
-                            password = "123",
-                            role = 0
-                        },
-                        new
-                        {
-                            username = "thepope@gmail.com",
-                            password = "blessyou",
-                            role = 1
                         });
                 });
 #pragma warning restore 612, 618

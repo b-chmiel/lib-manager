@@ -1,13 +1,17 @@
 import { Flex } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { UserType } from "../../auth/state/auth.types";
+import { selectAuthUserType } from "../../auth/state/authSelectors";
 import { useAppDispatch, useAppSelector } from "../../config/hooks";
 import { BookControls } from "../components/BookControls";
 import { BookList } from "../components/BookList";
-import { getBooksAsync, selectGetBooks } from "../state/librarianSlice";
+import { selectGetBooks } from "../state/books/bookSelectors";
+import { getBooksAsync } from "../state/books/bookThunks";
 
 export const BookInventoryView = () => {
   const dispatch = useAppDispatch();
   const books = useAppSelector(selectGetBooks);
+  const userType = useAppSelector(selectAuthUserType);
 
   useEffect(() => {
     dispatch(getBooksAsync());
@@ -15,7 +19,7 @@ export const BookInventoryView = () => {
 
   return (
     <Flex m={16} flexDir={"column"}>
-      <BookControls />
+      {userType === UserType.LIBRARIAN ? <BookControls /> : <></>}
       <BookList books={books} />
     </Flex>
   );

@@ -10,10 +10,10 @@ import {
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {
-  postBookAsync,
   selectPostBookError,
   selectPostBookStatus,
-} from "../../state/librarianSlice";
+} from "../../state/books/bookSelectors";
+import { postBookAsync } from "../../state/books/bookThunks";
 import { BookForm } from "../BookForm";
 import { initialValues } from "./BookModal.constants";
 import "./BookModal.css";

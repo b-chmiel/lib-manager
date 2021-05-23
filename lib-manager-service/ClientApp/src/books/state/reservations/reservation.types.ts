@@ -1,10 +1,10 @@
 export interface MakeReservationData {
   bookId: number;
-  userId: number;
+  userId: string;
 }
 
 export interface Reservation {
-  reservationId: number;
+  reservationID: number;
   bookId: number;
   userId: number;
   reservationStart: string;

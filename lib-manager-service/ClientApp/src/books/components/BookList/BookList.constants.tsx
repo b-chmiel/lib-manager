@@ -1,7 +1,7 @@
 import { Box, Button } from "@chakra-ui/react";
 import React from "react";
 import { Column } from "react-table";
-import { BookFormData } from "../BookForm/BookForm.types";
+import { Reservation } from "../../state/reservations/reservation.types";
 
 export const BookListColumns = (
   onEdit: (bookId: number) => void,
@@ -57,7 +57,7 @@ export const BookListColumns = (
 export const ReaderListColumns = (
   onReservation: (bookId: number) => void,
   onCancelReservation: (bookId: number) => void,
-  reservedBooks: BookFormData[]
+  reservedBooks: Reservation[]
 ) =>
   [
     {

@@ -18,5 +18,5 @@ export const deleteReservationAsync = createAsyncThunk(
 
 export const getReservationsAsync = createAsyncThunk(
   "reservations/get-reservations",
-  async (userId: number) => await getReservations(userId)
+  async (userId: string) => await getReservations(userId)
 );

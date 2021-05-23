@@ -20,9 +20,9 @@ export function deleteReservation(reservationId: number): Promise<string> {
     .catch((error) => Promise.reject(error.response.data));
 }
 
-export function getReservations(userId: number): Promise<Reservation[]> {
+export function getReservations(userId: string): Promise<Reservation[]> {
   return axios
-    .post(`${ApiRoutes.GET_RESERVATIONS}?userId=${userId}`)
+    .get(`${ApiRoutes.GET_RESERVATIONS}?userId=${userId}`)
     .then((response) => response.data)
     .catch((error) => Promise.reject(error.response.data));
 }

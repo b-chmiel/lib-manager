@@ -59,7 +59,9 @@ export const booksSlice = createSlice({
       })
       .addCase(getBooksAsync.fulfilled, (state, action) => {
         state.getBooks.status = RequestStatus.SUCCESS;
-        state.getBooks.books = action.payload;
+        state.getBooks.books = action.payload.sort(
+          (a, b) => a.bookId - b.bookId
+        );
       })
       .addCase(getBooksAsync.rejected, (state, action) => {
         state.getBooks.status = RequestStatus.FAILED;

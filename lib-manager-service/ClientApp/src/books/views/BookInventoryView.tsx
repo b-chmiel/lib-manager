@@ -19,7 +19,7 @@ export const BookInventoryView = () => {
 
   return (
     <Flex m={16} flexDir={"column"}>
-      {userType == UserType.LIBRARIAN ? <BookControls /> : <></>}
+      {userType === UserType.LIBRARIAN ? <BookControls /> : <></>}
       <BookList books={books} />
     </Flex>
   );

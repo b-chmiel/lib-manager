@@ -1,7 +1,10 @@
 import { useDisclosure, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { UserType } from "../../../auth/state/auth.types";
-import { selectAuthUserType } from "../../../auth/state/authSelectors";
+import {
+  selectAuthUserType,
+  selectUserInfo,
+} from "../../../auth/state/authSelectors";
 import { Table } from "../../../common/components/Table";
 import { RequestStatus } from "../../../common/utils/types";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
@@ -11,6 +14,13 @@ import {
   selectDeleteBookStatus,
 } from "../../state/books/bookSelectors";
 import { deleteBookAsync, getBooksAsync } from "../../state/books/bookThunks";
+import { MakeReservationData } from "../../state/reservations/reservation.types";
+import { selectGetReservations } from "../../state/reservations/reservationsSelectors";
+import {
+  deleteReservationAsync,
+  getReservationsAsync,
+  postReservationAsync,
+} from "../../state/reservations/reservationsThunks";
 import { BookFormData } from "../BookForm/BookForm.types";
 import { BookModalEdit } from "../BookModalEdit";
 import { BookListColumns, ReaderListColumns } from "./BookList.constants";
@@ -26,11 +36,12 @@ export const BookList: React.FC<Props> = ({ books }) => {
   const error = useAppSelector(selectDeleteBookError);
   const userType = useAppSelector(selectAuthUserType);
   const toast = useToast();
+  const user = useAppSelector(selectUserInfo);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [bookToEdit, setBookToEdit] = useState<BookFormData | undefined>(
     undefined
   );
-  const reservedBooks = [] as BookFormData[];
+  const reservedBooksSelector = useAppSelector(selectGetReservations);
 
   const onDelete = (bookId: number) => dispatch(deleteBookAsync(bookId));
 
@@ -83,13 +94,39 @@ export const BookList: React.FC<Props> = ({ books }) => {
     handleDeleted();
   }, [status]);
 
-  const onReservation = (bookId: number) => {};
-  const onCancelReservation = (bookId: number) => {};
+  useEffect(() => {
+    dispatch(getReservationsAsync(user?.name ?? ""));
+  }, []);
+
+  const onReservation = (bookId: number) => {
+    const userId = user?.name ?? "";
+    const reservation = { bookId, userId } as MakeReservationData;
+    dispatch(postReservationAsync(reservation)).then(() => {
+      dispatch(getReservationsAsync(userId));
+    });
+  };
+
+  const onCancelReservation = (bookId: number) => {
+    const userId = user?.name ?? "";
+    dispatch(getReservationsAsync(userId)).then(() => {
+      const reservationId = reservedBooksSelector.reservations.find(
+        (book) => book.bookId === bookId
+      )?.reservationID;
+
+      dispatch(deleteReservationAsync(reservationId ?? -1)).then(() => {
+        dispatch(getReservationsAsync(userId));
+      });
+    });
+  };
 
   const getBookListColumns = () =>
     userType === UserType.LIBRARIAN
       ? BookListColumns(onEdit, onDelete)
-      : ReaderListColumns(onReservation, onCancelReservation, reservedBooks);
+      : ReaderListColumns(
+          onReservation,
+          onCancelReservation,
+          reservedBooksSelector?.reservations ?? []
+        );
 
   return (
     <>

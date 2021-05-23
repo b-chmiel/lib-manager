@@ -1,9 +1,6 @@
 import React from "react";
 import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
-import {
-  selectAuthUserType,
-  selectIsAuthenticated,
-} from "../auth/state/authSelectors";
+import { selectIsAuthenticated } from "../auth/state/authSelectors";
 import LoginView from "../auth/views/LoginView/LoginView";
 import RegisterView from "../auth/views/RegisterView/RegisterView";
 import { BookInventoryView } from "../books/views/BookInventoryView";
@@ -15,7 +12,6 @@ import { Routes } from "./routes";
 export const AppRouter: React.FC = () => {
   const basename = getBaseName();
   const isAuth = useAppSelector(selectIsAuthenticated);
-  const userType = useAppSelector(selectAuthUserType);
 
   return (
     <BrowserRouter basename={basename}>

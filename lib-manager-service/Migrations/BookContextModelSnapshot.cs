@@ -75,36 +75,6 @@ namespace lib_manager.Migrations
                             publicationDate = new DateTime(1915, 6, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
-
-            modelBuilder.Entity("lib_manager.Models.UserModel", b =>
-                {
-                    b.Property<string>("username")
-                        .HasColumnType("text");
-
-                    b.Property<string>("password")
-                        .HasColumnType("text");
-
-                    b.Property<int>("role")
-                        .HasColumnType("integer");
-
-                    b.HasKey("username");
-
-                    b.ToTable("UserModel");
-
-                    b.HasData(
-                        new
-                        {
-                            username = "test1@gmail.com",
-                            password = "123",
-                            role = 0
-                        },
-                        new
-                        {
-                            username = "thepope@gmail.com",
-                            password = "blessyou",
-                            role = 1
-                        });
-                });
 #pragma warning restore 612, 618
         }
     }

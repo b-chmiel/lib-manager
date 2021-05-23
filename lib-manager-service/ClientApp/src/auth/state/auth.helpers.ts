@@ -30,9 +30,7 @@ export function getUserInfo(token: string | null) {
 
   return {
     name: parsed.email,
-    type: getUserTypeFromJwtField(
-      parsed["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]
-    ),
+    type: getUserTypeFromJwtField(parsed["Role"]),
   } as User;
 }
 

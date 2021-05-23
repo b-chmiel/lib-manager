@@ -8,34 +8,38 @@ using Microsoft.Extensions.Configuration;
 
 namespace lib_manager.Controllers
 {
+
+    [ApiController]
+    [Route("api/[controller]")]
     public class ReservationController : Controller
     {
         private IConfiguration _config;
         private ReservationContext _context;
-        
+
         public ReservationController(IConfiguration config, ReservationContext context)
         {
             _config = config;
             _context = context;
         }
-        
-        [HttpGet("{reservationId}")]
+
+        [HttpGet("GetR/{reservationId}")]
         private ReservationModel GetReservation(int rId)
         {
             return _context.ReservationList.FirstOrDefault(x => x.reservationID == rId);
         }
-        
-        [HttpPost ("CreateR")]
-        
+
+        [HttpPost("CreateR")]
+
         public IActionResult CreateReservation(int bookId, string username)
         {
-            IActionResult response = StatusCode(201,"Reservation Created");
-            var temp = new ReservationModel{bookId = bookId, username = username, reservationStart = DateTime.Now};
+            IActionResult response = StatusCode(201, "Reservation Created");
+            var temp = new ReservationModel { bookId = bookId, username = username, reservationStart = DateTime.Now };
             _context.Add(temp);
             _context.SaveChanges();
             return response;
         }
 
+        [HttpDelete("CloseR")]
         public void CloseReservation(int reservationId)
         {
             var item = _context.ReservationList.FirstOrDefault(i => i.reservationID == reservationId);
@@ -44,26 +48,29 @@ namespace lib_manager.Controllers
             _context.Add(item);
             _context.SaveChanges();
         }
-        
-        [HttpDelete ("DeleteR")]
-        
+
+        [HttpDelete("DeleteR")]
         public IActionResult DeleteReservation(int reservationId)
         {
-            IActionResult response = StatusCode(202,"Reservation Deleted");
-            _context.Remove(_context.ReservationList.Single(x => x.reservationID == reservationId));
-            _context.SaveChanges();
-            return response;
+            var toDelete = _context.ReservationList.SingleOrDefault(x => x.reservationID == reservationId);
+
+            if (toDelete != null)
+            {
+                _context.Remove(toDelete);
+                _context.SaveChanges();
+                return StatusCode(200, "Reservation Deleted");
+            }
+
+            return StatusCode(404, "Not found");
         }
-        
-        
-        
-        [HttpPost ("GetReserves")]
-        
+
+
+        [HttpGet("GetReserves")]
+
         public List<ReservationModel> GetAll(string username)
         {
-            return _context.ReservationList.Where( x => x.username.Equals(username) ).ToList();;
+            return _context.ReservationList.Where(x => x.username.Equals(username)).ToList();
+
         }
-        
-        
     }
 }

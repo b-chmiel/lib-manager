@@ -31,7 +31,9 @@ namespace lib_manager.Controllers
             var temp = CheckBook(bookData.bookTitle);
             if (temp == null)
             {
-                _context.BookList.Add(CreateBook(bookData));
+                var book = CreateBook(bookData);
+                book.bookCount = 1;
+                _context.BookList.Add(book);
                 _context.SaveChanges();
                 response = StatusCode(201, "Book Added Successfully");
             }

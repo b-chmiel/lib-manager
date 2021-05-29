@@ -14,18 +14,20 @@ namespace lib_manager.Controllers
     public class ReservationController : Controller
     {
         private IConfiguration _config;
-        private ReservationContext _context;
+        private ReservationContext _contextR;
+        private BookContext _contextB;
 
-        public ReservationController(IConfiguration config, ReservationContext context)
+        public ReservationController(IConfiguration config, ReservationContext contextR, BookContext contextB)
         {
             _config = config;
-            _context = context;
+            _contextR = contextR;
+            _contextB = contextB;
         }
 
         [HttpGet("GetR/{reservationId}")]
         private ReservationModel GetReservation(int rId)
         {
-            return _context.ReservationList.FirstOrDefault(x => x.reservationID == rId);
+            return _contextR.ReservationList.FirstOrDefault(x => x.reservationID == rId);
         }
 
         [HttpPost("CreateR")]
@@ -34,34 +36,43 @@ namespace lib_manager.Controllers
         {
             IActionResult response = StatusCode(201, "Reservation Created");
             var temp = new ReservationModel { bookId = bookId, username = username, reservationStart = DateTime.Now };
-            _context.Add(temp);
-            _context.SaveChanges();
+            _contextR.Add(temp);
+            _contextR.SaveChanges();
             return response;
         }
 
         [HttpDelete("CloseR")]
         public void CloseReservation(int reservationId)
         {
-            var item = _context.ReservationList.FirstOrDefault(i => i.reservationID == reservationId);
+            var item = _contextR.ReservationList.FirstOrDefault(i => i.reservationID == reservationId);
             item.reservationEnd = DateTime.Now;
             DeleteReservation(reservationId);
-            _context.Add(item);
-            _context.SaveChanges();
+            _contextR.Add(item);
+            _contextR.SaveChanges();
         }
 
         [HttpDelete("DeleteR")]
         public IActionResult DeleteReservation(int reservationId)
         {
-            var toDelete = _context.ReservationList.SingleOrDefault(x => x.reservationID == reservationId);
+            var toDelete = _contextR.ReservationList.SingleOrDefault(x => x.reservationID == reservationId);
 
             if (toDelete != null)
             {
-                _context.Remove(toDelete);
-                _context.SaveChanges();
+                _contextR.Remove(toDelete);
+                _contextR.SaveChanges();
                 return StatusCode(200, "Reservation Deleted");
             }
 
             return StatusCode(404, "Not found");
+        }
+
+        [HttpGet("BooksAvail")]
+        public IActionResult BooksAvailable(int bookId)
+        {
+            var query = _contextB.BookList.First(x => x.bookId == bookId);
+            int total = query.bookCount;
+            int reserved = _contextR.ReservationList.Select(x => x.bookId == bookId).ToList().Count;
+            return Ok(total - reserved);
         }
 
 
@@ -69,8 +80,7 @@ namespace lib_manager.Controllers
 
         public List<ReservationModel> GetAll(string username)
         {
-            return _context.ReservationList.Where(x => x.username.Equals(username)).ToList();
-
+            return _contextR.ReservationList.Where(x => x.username.Equals(username)).ToList();
         }
     }
 }

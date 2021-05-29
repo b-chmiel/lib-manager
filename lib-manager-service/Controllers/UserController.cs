@@ -1,5 +1,4 @@
-﻿
-using Swashbuckle.AspNetCore;
+﻿using Swashbuckle.AspNetCore;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;

@@ -24,6 +24,7 @@ namespace lib_manager.Controllers
         }
 
         [HttpPost("Add")]
+        [Authorize]
         public IActionResult AddBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(409, "Book Already Exists");
@@ -38,9 +39,9 @@ namespace lib_manager.Controllers
         }
 
         [HttpGet("{bookId}")]
-        private BookModel GetBook(int bookId)
+        private IActionResult GetBook(int bookId)
         {
-            return _context.BookList.FirstOrDefault(x => x.bookId == bookId);
+            return Ok(_context.BookList.FirstOrDefault(x => x.bookId == bookId));
         }
         
         [HttpGet("{title}")]
@@ -61,8 +62,18 @@ namespace lib_manager.Controllers
 
         }
 
-        [AllowAnonymous]
+        [HttpPost("BookCount")]
+        private IActionResult SetBookCount(int bookiD, int bookCount)
+        {
+            var book = _context.BookList.First(x => x.bookId == bookiD);
+            book.bookCount = bookCount;
+            _context.SaveChanges();
+            return StatusCode(200, "Book Entry Altered");
+        }
+
+        
         [HttpPost("Edit")]
+        [Authorize]
         public IActionResult EditBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(200, "Book Entry Altered");
@@ -73,8 +84,9 @@ namespace lib_manager.Controllers
             return response;
         }
 
-        [AllowAnonymous]
+        
         [HttpDelete ("Delete")]
+        [Authorize]
         public IActionResult DeleteBook(int bookId)
         {
             IActionResult response = StatusCode(202, "Book Entry Removed");

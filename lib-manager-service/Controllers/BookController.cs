@@ -31,7 +31,9 @@ namespace lib_manager.Controllers
             var temp = CheckBook(bookData.bookTitle);
             if (temp == null)
             {
-                _context.BookList.Add(CreateBook(bookData));
+                var book = CreateBook(bookData);
+                book.bookCount = 1;
+                _context.BookList.Add(book);
                 _context.SaveChanges();
                 response = StatusCode(201, "Book Added Successfully");
             }
@@ -39,7 +41,7 @@ namespace lib_manager.Controllers
         }
 
         [HttpGet("{bookId}")]
-        private IActionResult GetBook(int bookId)
+        public IActionResult GetBook(int bookId)
         {
             return Ok(_context.BookList.FirstOrDefault(x => x.bookId == bookId));
         }
@@ -62,8 +64,8 @@ namespace lib_manager.Controllers
 
         }
 
-        [HttpPost("BookCount")]
-        private IActionResult SetBookCount(int bookiD, int bookCount)
+        [HttpPost("SetCount")]
+        public IActionResult SetBookCount(int bookiD, int bookCount)
         {
             var book = _context.BookList.First(x => x.bookId == bookiD);
             book.bookCount = bookCount;
@@ -101,6 +103,17 @@ namespace lib_manager.Controllers
             //Console.WriteLine(_context.BookList.ToList());
             IActionResult response = Ok(_context.BookList.ToList());
             return response;
+        }
+
+        public int TotalBooks()
+        {
+            int total = 0;
+            foreach (var book in _context.BookList)
+            {
+                total += book.bookCount;
+            }
+
+            return total;
         }
 
     }

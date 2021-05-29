@@ -36,12 +36,13 @@ namespace lib_manager.Controllers
         {
             IActionResult response = StatusCode(201, "Reservation Created");
             var temp = new ReservationModel { bookId = bookId, username = username, reservationStart = DateTime.Now };
+            Console.WriteLine(temp.reservationEnd);
             _contextR.Add(temp);
             _contextR.SaveChanges();
             return response;
         }
 
-        [HttpDelete("CloseR")]
+        [HttpPost("CloseR")]
         public void CloseReservation(int reservationId)
         {
             var item = _contextR.ReservationList.FirstOrDefault(i => i.reservationID == reservationId);
@@ -76,11 +77,26 @@ namespace lib_manager.Controllers
         }
 
 
-        [HttpGet("GetReserves")]
+        [HttpGet("GetAllReserves")]
+        public List<ReservationModel> GetAll()
+        {
+            return _contextR.ReservationList.ToList();
+        }
+        
+        [HttpGet("GetUserReserves")]
 
         public List<ReservationModel> GetAll(string username)
         {
             return _contextR.ReservationList.Where(x => x.username.Equals(username)).ToList();
+        }
+
+        [HttpGet ("ReserveStats")]
+        public IActionResult ReservationStats()
+        {
+            int totalR = _contextR.ReservationList.Count();
+            var temp = new DateTime();
+            var temp2 = _contextR.ReservationList.Where(x => x.reservationEnd == temp).ToList();
+            return Ok("Total Reservation=" + totalR + " Active Reservations=" + temp2.Count());
         }
     }
 }

@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RequestStatus } from "../../../common/utils/types";
 import { deleteBookAsync } from "../books/bookThunks";
-import { Reservation } from "./reservation.types";
+import { Reservation, ReservationStats } from "./reservation.types";
 import {
   deleteReservationAsync,
   getReservationsAsync,
+  getReservationStatsAsync,
   postReservationAsync,
 } from "./reservationsThunks";
 
@@ -22,6 +23,11 @@ export interface ReservationState {
     error: string | undefined;
     reservations: Reservation[];
   };
+  reservationStats: {
+    status: RequestStatus;
+    error: string | undefined;
+    stats: ReservationStats;
+  };
 }
 
 const initialState: ReservationState = {
@@ -37,6 +43,11 @@ const initialState: ReservationState = {
     status: RequestStatus.INIT,
     error: "",
     reservations: [],
+  },
+  reservationStats: {
+    status: RequestStatus.INIT,
+    error: "",
+    stats: {} as ReservationStats,
   },
 };
 
@@ -76,6 +87,17 @@ export const reservationsSlice = createSlice({
       .addCase(getReservationsAsync.rejected, (state, action) => {
         state.getReservations.status = RequestStatus.FAILED;
         state.getReservations.error = action.error.message;
+      })
+      .addCase(getReservationStatsAsync.pending, (state) => {
+        state.reservationStats.status = RequestStatus.LOADING;
+      })
+      .addCase(getReservationStatsAsync.fulfilled, (state, action) => {
+        state.reservationStats.status = RequestStatus.SUCCESS;
+        state.reservationStats.stats = action.payload;
+      })
+      .addCase(getReservationStatsAsync.rejected, (state, action) => {
+        state.reservationStats.status = RequestStatus.FAILED;
+        state.reservationStats.error = action.error.message;
       });
   },
 });

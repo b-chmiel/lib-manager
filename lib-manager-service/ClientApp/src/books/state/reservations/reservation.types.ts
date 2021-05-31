@@ -10,3 +10,8 @@ export interface Reservation {
   reservationStart: string;
   reservationEnd: string;
 }
+
+export interface ReservationStats {
+  totalReservations: number;
+  activeReservations: number;
+}

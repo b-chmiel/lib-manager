@@ -88,7 +88,7 @@ namespace lib_manager.Controllers
         {
             return _contextR.ReservationList.ToList();
         }
-        
+
         [HttpGet("GetUserReserves")]
 
         public List<ReservationModel> GetAll(string username)
@@ -96,14 +96,14 @@ namespace lib_manager.Controllers
             return _contextR.ReservationList.Where(x => x.username.Equals(username)).ToList();
         }
 
-        [HttpGet ("ReserveStats")]
+        [HttpGet("ReserveStats")]
         public IActionResult ReservationStats()
         {
             int totalR = _contextR.ReservationList.Count();
-            var temp = new DateTime();
-            var temp2 = _contextR.ReservationList.Where(x => x.reservationEnd == temp).ToList();
-            
-            return Ok((totalR,temp2.Count()));
+            var currentTime = new DateTime();
+            var activeReservations = _contextR.ReservationList.Where(x => x.reservationEnd == currentTime).ToList();
+
+            return Ok(new { TotalReservations = totalR, ActiveReservations = activeReservations.Count() });
         }
     }
 }

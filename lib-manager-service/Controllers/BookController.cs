@@ -44,22 +44,31 @@ namespace lib_manager.Controllers
         {
             return Ok(_context.BookList.FirstOrDefault(x => x.bookId == bookId));
         }
-        
+
         [HttpGet("{title}")]
         private BookModel SearchBook(string title)
         {
             return _context.BookList.FirstOrDefault(x => x.bookTitle.Equals(title));
         }
-        
+
         private BookModel CheckBook(string title)
         {
             return _context.BookList.FirstOrDefault(x => x.bookTitle.Equals(title));
         }
-        
+
         private BookModel CreateBook(BookModel bookData)
         {
-            return new BookModel{bookId = bookData.bookId, bookTitle = bookData.bookTitle, authorName = bookData.authorName, 
-                description = bookData.description,language = bookData.language, pageCount = bookData.pageCount, publicationDate = bookData.publicationDate, bookCount = bookData.bookCount};
+            return new BookModel
+            {
+                bookId = bookData.bookId,
+                bookTitle = bookData.bookTitle,
+                authorName = bookData.authorName,
+                description = bookData.description,
+                language = bookData.language,
+                pageCount = bookData.pageCount,
+                publicationDate = bookData.publicationDate,
+                bookCount = bookData.bookCount
+            };
 
         }
 
@@ -72,9 +81,8 @@ namespace lib_manager.Controllers
             return StatusCode(200, "Book Entry Altered");
         }
 
-        
+
         [HttpPost("Edit")]
-        [Authorize]
         public IActionResult EditBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(200, "Book Entry Altered");
@@ -85,8 +93,8 @@ namespace lib_manager.Controllers
             return response;
         }
 
-        
-        [HttpDelete ("Delete")]
+
+        [HttpDelete("Delete")]
         public IActionResult DeleteBook(int bookId)
         {
             IActionResult response = StatusCode(202, "Book Entry Removed");
@@ -95,10 +103,6 @@ namespace lib_manager.Controllers
             return response;
         }
 
-
-
-
-        
         [HttpGet("BookList")]
         public IActionResult Books()
         {

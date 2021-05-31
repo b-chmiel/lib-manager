@@ -97,6 +97,10 @@ namespace lib_manager.Controllers
             return response;
         }
 
+
+
+
+        
         [HttpGet("BookList")]
         public IActionResult Books()
         {
@@ -105,6 +109,7 @@ namespace lib_manager.Controllers
             return response;
         }
 
+        [HttpGet("BookTotal")]
         public int TotalBooks()
         {
             int total = 0;

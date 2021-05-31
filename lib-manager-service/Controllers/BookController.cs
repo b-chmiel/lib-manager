@@ -24,7 +24,6 @@ namespace lib_manager.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorize]
         public IActionResult AddBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(409, "Book Already Exists");

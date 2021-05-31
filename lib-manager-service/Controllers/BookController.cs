@@ -24,7 +24,6 @@ namespace lib_manager.Controllers
         }
 
         [HttpPost("Add")]
-        [Authorize]
         public IActionResult AddBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(409, "Book Already Exists");
@@ -88,7 +87,6 @@ namespace lib_manager.Controllers
 
         
         [HttpDelete ("Delete")]
-        [Authorize]
         public IActionResult DeleteBook(int bookId)
         {
             IActionResult response = StatusCode(202, "Book Entry Removed");

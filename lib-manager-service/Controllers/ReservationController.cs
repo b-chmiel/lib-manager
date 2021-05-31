@@ -63,17 +63,23 @@ namespace lib_manager.Controllers
                 _contextR.SaveChanges();
                 return StatusCode(200, "Reservation Deleted");
             }
-
             return StatusCode(404, "Not found");
         }
 
         [HttpGet("BooksAvail")]
         public IActionResult BooksAvailable(int bookId)
         {
-            var query = _contextB.BookList.First(x => x.bookId == bookId);
-            int total = query.bookCount;
-            int reserved = _contextR.ReservationList.Select(x => x.bookId == bookId).ToList().Count;
-            return Ok(total - reserved);
+            var query = _contextB.BookList.FirstOrDefault(x => x.bookId == bookId);
+            if (query != null)
+            {
+                int total = query.bookCount;
+                int reserved = _contextR.ReservationList.Select(x => x.bookId == bookId).ToList().Count;
+                return Ok(total - reserved);
+            }
+            else
+            {
+                return StatusCode(404, "Not found");
+            }
         }
 
 
@@ -96,7 +102,8 @@ namespace lib_manager.Controllers
             int totalR = _contextR.ReservationList.Count();
             var temp = new DateTime();
             var temp2 = _contextR.ReservationList.Where(x => x.reservationEnd == temp).ToList();
-            return Ok("Total Reservation=" + totalR + " Active Reservations=" + temp2.Count());
+            
+            return Ok((totalR,temp2.Count()));
         }
     }
 }

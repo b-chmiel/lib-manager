@@ -5,6 +5,7 @@ import {
   selectAuthUserType,
   selectIsAuthenticated,
 } from "../../auth/state/authSelectors";
+import { Menu } from "../../common/components/Menu/Menu";
 import { useAppSelector } from "../../config/hooks";
 import { Routes } from "../routes";
 interface Props {
@@ -19,7 +20,7 @@ const RestrictedRoute: React.FC<Props> = ({ path, children, userType }) => {
   return (
     <Route path={path}>
       {isAuth && userType === authUserType ? (
-        children
+        <Menu>{children}</Menu>
       ) : (
         <Redirect to={Routes.LOGIN} />
       )}

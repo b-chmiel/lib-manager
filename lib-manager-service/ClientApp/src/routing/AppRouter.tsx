@@ -3,10 +3,11 @@ import { BrowserRouter, Redirect, Route, Switch } from "react-router-dom";
 import { selectIsAuthenticated } from "../auth/state/authSelectors";
 import LoginView from "../auth/views/LoginView/LoginView";
 import RegisterView from "../auth/views/RegisterView/RegisterView";
+import { BookDetailsView } from "../books/views/BookDetailsView";
 import { BookInventoryView } from "../books/views/BookInventoryView";
-import { Menu } from "../common/components/Menu/Menu";
 import { useAppSelector } from "../config/hooks";
 import { getBaseName } from "./AppRouter.helpers";
+import AuthenticatedRoute from "./AuthenticatedRoute/AuthenticatedRoute";
 import { Routes } from "./routes";
 
 export const AppRouter: React.FC = () => {
@@ -19,11 +20,12 @@ export const AppRouter: React.FC = () => {
         <Route path={"/"} exact>
           <Redirect to={isAuth ? Routes.HOME_PAGE : Routes.LOGIN} />
         </Route>
-        <Route path={Routes.HOME_PAGE}>
-          <Menu>
-            <BookInventoryView />
-          </Menu>
-        </Route>
+        <AuthenticatedRoute path={Routes.HOME_PAGE}>
+          <BookInventoryView />
+        </AuthenticatedRoute>
+        <AuthenticatedRoute path={Routes.BOOK}>
+          <BookDetailsView />
+        </AuthenticatedRoute>
         <Route path={Routes.LOGIN}>
           <LoginView />
         </Route>

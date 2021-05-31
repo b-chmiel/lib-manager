@@ -5,7 +5,8 @@ import { Reservation } from "../../state/reservations/reservation.types";
 
 export const BookListColumns = (
   onEdit: (bookId: number) => void,
-  onDelete: (bookId: number) => void
+  onDelete: (bookId: number) => void,
+  onDetails: (bookId: number) => void
 ) =>
   [
     {
@@ -27,6 +28,18 @@ export const BookListColumns = (
       Header: "Count",
       accessor: "bookCount",
       Cell: (props: { value: number }) => <Box>{props.value}</Box>,
+    },
+    {
+      Header: "",
+      accessor: "Details",
+      Cell: (props: any) => (
+        <Button
+          colorScheme={"blue"}
+          onClick={() => onDetails(props.cell.row.original.bookId)}
+        >
+          Details
+        </Button>
+      ),
     },
     {
       Header: "",
@@ -57,7 +70,8 @@ export const BookListColumns = (
 export const ReaderListColumns = (
   onReservation: (bookId: number) => void,
   onCancelReservation: (bookId: number) => void,
-  reservedBooks: Reservation[]
+  reservedBooks: Reservation[],
+  onDetails: (bookId: number) => void
 ) =>
   [
     {
@@ -79,6 +93,18 @@ export const ReaderListColumns = (
       Header: "Count",
       accessor: "bookCount",
       Cell: (props: { value: number }) => <Box>{props.value}</Box>,
+    },
+    {
+      Header: "",
+      accessor: "Details",
+      Cell: (props: any) => (
+        <Button
+          colorScheme={"blue"}
+          onClick={() => onDetails(props.cell.row.original.bookId)}
+        >
+          Details
+        </Button>
+      ),
     },
     {
       Header: "",

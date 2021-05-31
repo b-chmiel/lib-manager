@@ -18,3 +18,5 @@ export const selectEditBookStatus = (state: RootState) =>
   state.booksReducer.editBook.status;
 export const selectEditBookError = (state: RootState) =>
   state.booksReducer.editBook.error;
+export const selectGetBook = (state: RootState, bookId: number) =>
+  state.booksReducer.getBooks.books.find((book) => book.bookId == bookId);

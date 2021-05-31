@@ -2,6 +2,7 @@ export enum Routes {
   LOGIN = "/login",
   REGISTER = "/register",
   HOME_PAGE = "/home",
+  BOOK = "/book/:bookId",
 }
 
 export enum ApiRoutes {
@@ -12,6 +13,9 @@ export enum ApiRoutes {
   PUT_BOOK = "/api/book/edit",
   POST_BOOK = "/api/book/add",
   CREATE_RESERVATION = "/api/reservation/creater",
-  DELETE_RESERVATION = "/api/reservation/deleter",
-  GET_RESERVATIONS = "/api/reservation/getreserves",
+  DELETE_RESERVATION = "/api/reservation/closer",
+  GET_RESERVATIONS = "/api/reservation/getuserreserves",
+  GET_ALL_RESERVATIONS = "/api/reservation/getallreserves",
+  GET_BOOKS_AVAILABLE = "/api/reservation/booksavail",
+  GET_RESERVATION_STATS = "/api/reservation/reservestats",
 }

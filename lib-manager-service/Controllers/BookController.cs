@@ -87,7 +87,6 @@ namespace lib_manager.Controllers
 
         
         [HttpDelete ("Delete")]
-        [Authorize]
         public IActionResult DeleteBook(int bookId)
         {
             IActionResult response = StatusCode(202, "Book Entry Removed");

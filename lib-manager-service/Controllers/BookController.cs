@@ -74,17 +74,15 @@ namespace lib_manager.Controllers
 
         
         [HttpPost("Edit")]
-        [Authorize]
         public IActionResult EditBook([FromBody] BookModel bookData)
         {
             IActionResult response = StatusCode(200, "Book Entry Altered");
-            var user = CreateBook(bookData);
+            var book = CreateBook(bookData);
             DeleteBook(bookData.bookId);
-            _context.Add(user);
+            _context.Add(book);
             _context.SaveChanges();
             return response;
         }
-
         
         [HttpDelete ("Delete")]
         public IActionResult DeleteBook(int bookId)
@@ -94,10 +92,6 @@ namespace lib_manager.Controllers
             _context.SaveChanges();
             return response;
         }
-
-
-
-
         
         [HttpGet("BookList")]
         public IActionResult Books()

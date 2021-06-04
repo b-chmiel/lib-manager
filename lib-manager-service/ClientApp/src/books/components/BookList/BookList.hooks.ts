@@ -13,8 +13,7 @@ import { deleteBookAsync, getBooksAsync } from "../../state/books/bookThunks";
 import { MakeReservationData } from "../../state/reservations/reservation.types";
 import { selectGetReservations } from "../../state/reservations/reservationsSelectors";
 import {
-  deleteReservationAsync,
-  getReservationsAsync,
+  getUserReservationsAsync,
   postReservationAsync,
 } from "../../state/reservations/reservationsThunks";
 import { BookFormData } from "../BookForm/BookForm.types";
@@ -47,7 +46,7 @@ export const useBookList = ({
   }, [status]);
 
   useEffect(() => {
-    dispatch(getReservationsAsync(user?.name ?? ""));
+    dispatch(getUserReservationsAsync(user?.name ?? ""));
   }, []);
 
   const onDelete = (bookId: number) => dispatch(deleteBookAsync(bookId));
@@ -81,25 +80,12 @@ export const useBookList = ({
     const userId = user?.name ?? "";
     const reservation = { bookId, userId } as MakeReservationData;
     dispatch(postReservationAsync(reservation)).then(() => {
-      dispatch(getReservationsAsync(userId));
-    });
-  };
-
-  const onCancelReservation = (bookId: number) => {
-    const userId = user?.name ?? "";
-    dispatch(getReservationsAsync(userId)).then(() => {
-      const reservationId = reservedBooksSelector.reservations.find(
-        (book) => book.bookId === bookId
-      )?.reservationID;
-
-      dispatch(deleteReservationAsync(reservationId ?? -1)).then(() => {
-        dispatch(getReservationsAsync(userId));
-      });
+      dispatch(getUserReservationsAsync(userId));
     });
   };
 
   const onDetails = (bookId: number) =>
     history.push(Routes.BOOK.replace(":bookId", bookId.toString()));
 
-  return { onDelete, onEdit, onReservation, onCancelReservation, onDetails };
+  return { onDelete, onEdit, onReservation, onDetails };
 };

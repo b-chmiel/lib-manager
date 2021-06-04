@@ -5,6 +5,7 @@ import { selectAuthUserType } from "../../../auth/state/authSelectors";
 import { Table } from "../../../common/components/Table";
 import { useStatusToasts } from "../../../common/hooks/useStatusToasts";
 import { useAppSelector } from "../../../config/hooks";
+import { isReservationCurrent } from "../../helpers/isReservationCurrent";
 import { Book } from "../../state/books/book.types";
 import { selectGetReservations } from "../../state/reservations/reservationsSelectors";
 import { BookFormData } from "../BookForm/BookForm.types";
@@ -25,23 +26,22 @@ export const BookList: React.FC<Props> = ({ books }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { errorToast, successToast } = useStatusToasts();
 
-  const {
-    onDelete,
-    onEdit,
-    onReservation,
-    onCancelReservation,
-    onDetails,
-  } = useBookList({ books, onOpen, errorToast, successToast, setBookToEdit });
+  const { onDelete, onEdit, onReservation, onDetails } = useBookList({
+    books,
+    onOpen,
+    errorToast,
+    successToast,
+    setBookToEdit,
+  });
+
+  const reservedBooks = reservedBooksSelector?.reservations.filter(
+    isReservationCurrent
+  );
 
   const getBookListColumns = () =>
     userType === UserType.LIBRARIAN
       ? BookListColumns(onEdit, onDelete, onDetails)
-      : ReaderListColumns(
-          onReservation,
-          onCancelReservation,
-          reservedBooksSelector?.reservations ?? [],
-          onDetails
-        );
+      : ReaderListColumns(onReservation, reservedBooks ?? [], onDetails);
 
   return (
     <>

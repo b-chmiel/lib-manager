@@ -5,9 +5,10 @@ import LoginView from "../auth/views/LoginView/LoginView";
 import RegisterView from "../auth/views/RegisterView/RegisterView";
 import { BookDetailsView } from "../books/views/BookDetailsView";
 import { BookInventoryView } from "../books/views/BookInventoryView";
+import { ReservationsView } from "../books/views/ReservationsView";
 import { useAppSelector } from "../config/hooks";
 import { getBaseName } from "./AppRouter.helpers";
-import AuthenticatedRoute from "./AuthenticatedRoute/AuthenticatedRoute";
+import AuthenticatedRoute from "./components/AuthenticatedRoute/AuthenticatedRoute";
 import { Routes } from "./routes";
 
 export const AppRouter: React.FC = () => {
@@ -25,6 +26,9 @@ export const AppRouter: React.FC = () => {
         </AuthenticatedRoute>
         <AuthenticatedRoute path={Routes.BOOK}>
           <BookDetailsView />
+        </AuthenticatedRoute>
+        <AuthenticatedRoute path={Routes.RESERVATIONS}>
+          <ReservationsView />
         </AuthenticatedRoute>
         <Route path={Routes.LOGIN}>
           <LoginView />

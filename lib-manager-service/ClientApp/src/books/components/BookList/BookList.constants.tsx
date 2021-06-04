@@ -25,11 +25,6 @@ export const BookListColumns = (
       Cell: (props: { value: string }) => <Box>{props.value}</Box>,
     },
     {
-      Header: "Count",
-      accessor: "bookCount",
-      Cell: (props: { value: number }) => <Box>{props.value}</Box>,
-    },
-    {
       Header: "",
       accessor: "Details",
       Cell: (props: any) => (
@@ -69,7 +64,6 @@ export const BookListColumns = (
 
 export const ReaderListColumns = (
   onReservation: (bookId: number) => void,
-  onCancelReservation: (bookId: number) => void,
   reservedBooks: Reservation[],
   onDetails: (bookId: number) => void
 ) =>
@@ -90,11 +84,6 @@ export const ReaderListColumns = (
       Cell: (props: { value: string }) => <Box>{props.value}</Box>,
     },
     {
-      Header: "Count",
-      accessor: "bookCount",
-      Cell: (props: { value: number }) => <Box>{props.value}</Box>,
-    },
-    {
       Header: "",
       accessor: "Details",
       Cell: (props: any) => (
@@ -112,15 +101,7 @@ export const ReaderListColumns = (
       Cell: (props: any) => {
         const bookId = props.cell.row.original.bookId;
 
-        return reservedBooks.find((book) => book.bookId === bookId) !==
-          undefined ? (
-          <Button
-            colorScheme={"red"}
-            onClick={() => onCancelReservation(bookId)}
-          >
-            Cancel
-          </Button>
-        ) : (
+        return (
           <Button colorScheme={"teal"} onClick={() => onReservation(bookId)}>
             Reserve
           </Button>

@@ -4,6 +4,7 @@ import {
   deleteReservation,
   getReservations,
   getReservationStats,
+  getUserReservations,
   postReservation,
 } from "./reservationsApi";
 
@@ -19,7 +20,12 @@ export const deleteReservationAsync = createAsyncThunk(
 
 export const getReservationsAsync = createAsyncThunk(
   "reservations/get-reservations",
-  async (userId: string) => await getReservations(userId)
+  async () => await getReservations()
+);
+
+export const getUserReservationsAsync = createAsyncThunk(
+  "reservations/get-user-reservations",
+  async (userId: string) => await getUserReservations(userId)
 );
 
 export const getReservationStatsAsync = createAsyncThunk(

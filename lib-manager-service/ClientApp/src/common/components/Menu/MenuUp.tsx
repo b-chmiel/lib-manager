@@ -5,6 +5,7 @@ import { useHistory } from "react-router";
 import { selectAuthUserType } from "../../../auth/state/authSelectors";
 import { logout } from "../../../auth/state/authSlice";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
+import { AppLink } from "../../../routing/components/AppLink";
 import { Routes } from "../../../routing/routes";
 import { getUserTypeDescription } from "./MenuUp.helpers";
 import { MainBox } from "./MenuUp.styles";
@@ -33,9 +34,16 @@ export const MenuUp: FC = () => {
           minHeight={"inherit"}
           alignItems={"center"}
           justifyContent={"center"}
-          flexDirection={"column"}
+          flexDirection={"row"}
         >
-          <Text fontSize={"2xl"}>{t("Menu.Title")}</Text>
+          <AppLink to={Routes.HOME_PAGE}>
+            <Text fontSize={"2xl"}>{t("Menu.Title")}</Text>
+          </AppLink>
+          <Box ml={8}>
+            <AppLink to={Routes.RESERVATIONS}>
+              <Text fontSize={"md"}>{t("Menu.Reservations")}</Text>
+            </AppLink>
+          </Box>
         </Flex>
         <Flex
           mr={4}

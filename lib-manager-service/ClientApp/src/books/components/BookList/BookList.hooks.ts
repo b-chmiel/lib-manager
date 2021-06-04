@@ -3,6 +3,11 @@ import { useHistory } from "react-router-dom";
 import { selectUserInfo } from "../../../auth/state/authSelectors";
 import { RequestStatus } from "../../../common/utils/types";
 import { useAppDispatch, useAppSelector } from "../../../config/hooks";
+import { MakeReservationData } from "../../../reservations/state/reservations/reservation.types";
+import {
+  getUserReservationsAsync,
+  postReservationAsync,
+} from "../../../reservations/state/reservations/reservationsThunks";
 import { Routes } from "../../../routing/routes";
 import { Book } from "../../state/books/book.types";
 import {
@@ -10,12 +15,6 @@ import {
   selectDeleteBookStatus,
 } from "../../state/books/bookSelectors";
 import { deleteBookAsync, getBooksAsync } from "../../state/books/bookThunks";
-import { MakeReservationData } from "../../state/reservations/reservation.types";
-import { selectGetReservations } from "../../state/reservations/reservationsSelectors";
-import {
-  getUserReservationsAsync,
-  postReservationAsync,
-} from "../../state/reservations/reservationsThunks";
 import { BookFormData } from "../BookForm/BookForm.types";
 import { getBookById } from "./BookList.helpers";
 
@@ -39,7 +38,15 @@ export const useBookList = ({
   const error = useAppSelector(selectDeleteBookError);
   const user = useAppSelector(selectUserInfo);
   const history = useHistory();
-  const reservedBooksSelector = useAppSelector(selectGetReservations);
+
+  const handleDeleted = () => {
+    if (status === RequestStatus.FAILED) {
+      errorToast("Delete failed. ", error ?? "");
+    } else if (status === RequestStatus.SUCCESS) {
+      successToast("Delete success. ");
+      dispatch(getBooksAsync());
+    }
+  };
 
   useEffect(() => {
     handleDeleted();
@@ -47,7 +54,7 @@ export const useBookList = ({
 
   useEffect(() => {
     dispatch(getUserReservationsAsync(user?.name ?? ""));
-  }, []);
+  }, [dispatch, user?.name]);
 
   const onDelete = (bookId: number) => dispatch(deleteBookAsync(bookId));
 
@@ -68,14 +75,6 @@ export const useBookList = ({
     }
   };
 
-  const handleDeleted = () => {
-    if (status === RequestStatus.FAILED) {
-      errorToast("Delete failed. ", error ?? "");
-    } else if (status === RequestStatus.SUCCESS) {
-      successToast("Delete success. ");
-      dispatch(getBooksAsync());
-    }
-  };
   const onReservation = (bookId: number) => {
     const userId = user?.name ?? "";
     const reservation = { bookId, userId } as MakeReservationData;

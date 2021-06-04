@@ -3,9 +3,9 @@ import React, { useEffect } from "react";
 import { UserType } from "../../auth/state/auth.types";
 import { selectAuthUserType } from "../../auth/state/authSelectors";
 import { useAppDispatch, useAppSelector } from "../../config/hooks";
+import { ReservationStats } from "../../reservations/components/ReservationStats/ReservationStats";
 import { BookControls } from "../components/BookControls";
 import { BookList } from "../components/BookList";
-import { ReservationStats } from "../components/ReservationStats/ReservationStats";
 import { selectGetBooks } from "../state/books/bookSelectors";
 import { getBooksAsync } from "../state/books/bookThunks";
 

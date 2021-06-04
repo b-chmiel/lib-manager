@@ -1,7 +1,7 @@
 import { Box, Button } from "@chakra-ui/react";
 import React from "react";
 import { Column } from "react-table";
-import { Reservation } from "../../state/reservations/reservation.types";
+import { Reservation } from "../../../reservations/state/reservations/reservation.types";
 
 export const BookListColumns = (
   onEdit: (bookId: number) => void,

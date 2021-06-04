@@ -45,7 +45,7 @@ export const RegisterForm: React.FC = () => {
       });
     }
     dispatch(revalidateAuth());
-  }, [authError, toast]);
+  }, [authError, toast, dispatch]);
 
   useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 

@@ -1,28 +1,33 @@
-import {Box, Flex} from '@chakra-ui/react';
-import React from 'react';
-import {Column, Row, usePagination, useSortBy, useTable} from 'react-table';
-import {defaultPageSize} from './Table.constants';
-import {TableFooter} from './TableFooter';
-import {TableHeader} from './TableHeader';
-import {TableBody} from './TableBody';
-import {InnerFlex, MainFlex} from './Table.styles';
+import { Box, Flex } from "@chakra-ui/react";
+import React from "react";
+import { Column, Row, usePagination, useSortBy, useTable } from "react-table";
+import { defaultPageSize } from "./Table.constants";
+import { InnerFlex, MainFlex } from "./Table.styles";
+import { TableBody } from "./TableBody";
+import { TableFooter } from "./TableFooter";
+import { TableHeader } from "./TableHeader";
 
-declare module 'react-table' {
-    export interface TableOptions<D extends object> extends UsePaginationOptions<D>, UseFiltersOptions<D> {}
+declare module "react-table" {
+  export interface TableOptions<D extends object>
+    extends UsePaginationOptions<D>,
+      UseFiltersOptions<D> {}
 
-    export interface TableInstance<D extends object = {}> extends UsePaginationInstanceProps<D> {}
+  export interface TableInstance<D extends object = {}>
+    extends UsePaginationInstanceProps<D> {}
 
-    export interface TableState<D extends object = {}> extends UsePaginationState<D> {}
+  export interface TableState<D extends object = {}>
+    extends UsePaginationState<D> {}
 
-    export interface ColumnInstance<D extends object = {}> extends UseSortByColumnProps<D> {}
+  export interface ColumnInstance<D extends object = {}>
+    extends UseSortByColumnProps<D> {}
 }
 
 type Props<D extends object = {}> = {
-    data: any;
-    pageSize?: number;
-    tableHeading?: React.ReactNode;
-    columns: Column<D>[];
-    onRowClick?: (row: Row<D>) => void;
+  data: any;
+  pageSize?: number;
+  tableHeading?: React.ReactNode;
+  columns: Column<D>[];
+  onRowClick?: (row: Row<D>) => void;
 };
 
 /**
@@ -34,53 +39,63 @@ type Props<D extends object = {}> = {
  * @param onRowClick
  * @constructor
  */
-export const Table: React.FC<Props> = <D extends {}>({columns, data, tableHeading, pageSize, onRowClick}: Props<D>) => {
-    const tableColumns = React.useMemo(() => columns, [columns]);
+export const Table: React.FC<Props> = <D extends {}>({
+  columns,
+  data,
+  tableHeading,
+  pageSize,
+  onRowClick,
+}: Props<D>) => {
+  const tableColumns = React.useMemo(() => columns, [columns]);
 
-    const {
-        getTableProps,
-        headerGroups,
-        prepareRow,
-        page,
-        canPreviousPage,
-        canNextPage,
-        pageOptions,
-        pageCount,
-        gotoPage,
-        nextPage,
-        previousPage,
-        state: {pageIndex},
-    } = useTable<D>(
-        {
-            columns: tableColumns,
-            data,
-            initialState: {pageIndex: 0, pageSize: pageSize},
-        },
-        useSortBy,
-        usePagination,
-    );
+  const {
+    getTableProps,
+    headerGroups,
+    prepareRow,
+    page,
+    canPreviousPage,
+    canNextPage,
+    pageOptions,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    state: { pageIndex },
+  } = useTable<D>(
+    {
+      columns: tableColumns,
+      data,
+      initialState: { pageIndex: 0, pageSize: pageSize },
+    },
+    useSortBy,
+    usePagination
+  );
 
-    return (
-        <Flex className={MainFlex}>
-            {!!tableHeading && <Box>{tableHeading}</Box>}
-            <Flex className={InnerFlex} {...getTableProps()}>
-                <TableHeader headerGroups={headerGroups} />
-                <TableBody prepareRow={prepareRow} page={page} onRowClick={onRowClick} />
-            </Flex>
-            <TableFooter
-                gotoPage={gotoPage}
-                canPreviousPage={canPreviousPage}
-                previousPage={previousPage}
-                pageIndex={pageIndex}
-                pageOptions={pageOptions}
-                canNextPage={canNextPage}
-                nextPage={nextPage}
-                pageCount={pageCount}
-            />
-        </Flex>
-    );
+  return (
+    <Flex className={MainFlex}>
+      {!!tableHeading && <Box>{tableHeading}</Box>}
+      <Flex className={InnerFlex} {...getTableProps()}>
+        <TableHeader headerGroups={headerGroups} />
+        <TableBody
+          prepareRow={prepareRow}
+          page={page}
+          onRowClick={onRowClick}
+        />
+      </Flex>
+      <TableFooter
+        gotoPage={gotoPage}
+        canPreviousPage={canPreviousPage}
+        previousPage={previousPage}
+        pageIndex={pageIndex}
+        pageOptions={pageOptions}
+        canNextPage={canNextPage}
+        nextPage={nextPage}
+        pageCount={pageCount}
+      />
+    </Flex>
+  );
 };
 
 Table.defaultProps = {
-    pageSize: defaultPageSize,
+  pageSize: defaultPageSize,
 };

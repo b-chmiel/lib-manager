@@ -11,7 +11,7 @@ export function postReservation(
 ): Promise<string> {
   return axios
     .post(
-      `${ApiRoutes.CREATE_RESERVATION}?bookId=${reservation.bookId}&userId=${reservation.userId}`
+      `${ApiRoutes.CREATE_RESERVATION}?bookId=${reservation.bookId}&username=${reservation.userId}`
     )
     .then((response) => response.data)
     .catch((error) => Promise.reject(error.response.data));
@@ -24,9 +24,16 @@ export function deleteReservation(reservationId: number): Promise<string> {
     .catch((error) => Promise.reject(error.response.data));
 }
 
-export function getReservations(userId: string): Promise<Reservation[]> {
+export function getUserReservations(userId: string): Promise<Reservation[]> {
   return axios
-    .get(`${ApiRoutes.GET_RESERVATIONS}?userId=${userId}`)
+    .get(`${ApiRoutes.GET_RESERVATIONS}?username=${userId}`)
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
+}
+
+export function getReservations(): Promise<Reservation[]> {
+  return axios
+    .get(`${ApiRoutes.GET_ALL_RESERVATIONS}`)
     .then((response) => response.data)
     .catch((error) => Promise.reject(error.response.data));
 }

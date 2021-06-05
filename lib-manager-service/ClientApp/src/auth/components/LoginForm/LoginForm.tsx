@@ -6,7 +6,7 @@ import {
   FormLabel,
   Heading,
   Input,
-  useToast
+  useToast,
 } from "@chakra-ui/react";
 import { Formik, FormikHelpers } from "formik";
 import React, { useEffect } from "react";
@@ -38,7 +38,7 @@ export const LoginForm: React.FC = () => {
 
   useEffect(() => {
     dispatch(revalidateAuth());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (authError !== "") {
@@ -51,7 +51,7 @@ export const LoginForm: React.FC = () => {
       });
     }
     dispatch(revalidateAuth());
-  }, [authError, toast]);
+  }, [authError, toast, dispatch]);
 
   useRedirectOnSuccess(authStatus, Routes.HOME_PAGE);
 

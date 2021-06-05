@@ -45,6 +45,8 @@ const resources = {
       Menu: {
         Title: "Lib manager",
         Logout: "Log out",
+        Reservations: "Reservations",
+        ReservationsCharts: "Charts",
       },
     },
   },

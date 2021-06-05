@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { RequestStatus } from "../../../common/utils/types";
-import { deleteBookAsync } from "../books/bookThunks";
 import { Reservation, ReservationStats } from "./reservation.types";
 import {
   deleteReservationAsync,
   getReservationsAsync,
   getReservationStatsAsync,
+  getUserReservationsAsync,
   postReservationAsync,
 } from "./reservationsThunks";
 
@@ -19,6 +19,11 @@ export interface ReservationState {
     error: string | undefined;
   };
   getReservations: {
+    status: RequestStatus;
+    error: string | undefined;
+    reservations: Reservation[];
+  };
+  getUserReservations: {
     status: RequestStatus;
     error: string | undefined;
     reservations: Reservation[];
@@ -40,6 +45,11 @@ const initialState: ReservationState = {
     error: "",
   },
   getReservations: {
+    status: RequestStatus.INIT,
+    error: "",
+    reservations: [],
+  },
+  getUserReservations: {
     status: RequestStatus.INIT,
     error: "",
     reservations: [],
@@ -73,7 +83,7 @@ export const reservationsSlice = createSlice({
       .addCase(deleteReservationAsync.fulfilled, (state) => {
         state.deleteReservation.status = RequestStatus.SUCCESS;
       })
-      .addCase(deleteBookAsync.rejected, (state, action) => {
+      .addCase(deleteReservationAsync.rejected, (state, action) => {
         state.deleteReservation.status = RequestStatus.FAILED;
         state.deleteReservation.error = action.error.message;
       })
@@ -87,6 +97,17 @@ export const reservationsSlice = createSlice({
       .addCase(getReservationsAsync.rejected, (state, action) => {
         state.getReservations.status = RequestStatus.FAILED;
         state.getReservations.error = action.error.message;
+      })
+      .addCase(getUserReservationsAsync.pending, (state) => {
+        state.getUserReservations.status = RequestStatus.LOADING;
+      })
+      .addCase(getUserReservationsAsync.fulfilled, (state, action) => {
+        state.getUserReservations.status = RequestStatus.SUCCESS;
+        state.getUserReservations.reservations = action.payload;
+      })
+      .addCase(getUserReservationsAsync.rejected, (state, action) => {
+        state.getUserReservations.status = RequestStatus.FAILED;
+        state.getUserReservations.error = action.error.message;
       })
       .addCase(getReservationStatsAsync.pending, (state) => {
         state.reservationStats.status = RequestStatus.LOADING;

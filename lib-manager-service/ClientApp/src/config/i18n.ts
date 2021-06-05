@@ -46,6 +46,7 @@ const resources = {
         Title: "Lib manager",
         Logout: "Log out",
         Reservations: "Reservations",
+        ReservationsCharts: "Charts",
       },
     },
   },

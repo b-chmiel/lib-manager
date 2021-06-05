@@ -4,6 +4,7 @@ export enum Routes {
   HOME_PAGE = "/home",
   BOOK = "/book/:bookId",
   RESERVATIONS = "/reservations",
+  RESERVATIONS_CHARTS = "/charts",
 }
 
 export enum ApiRoutes {

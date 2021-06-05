@@ -44,6 +44,11 @@ export const MenuUp: FC = () => {
               <Text fontSize={"md"}>{t("Menu.Reservations")}</Text>
             </AppLink>
           </Box>
+          <Box ml={8}>
+            <AppLink to={Routes.RESERVATIONS_CHARTS}>
+              <Text fontSize={"md"}>{t("Menu.ReservationsCharts")}</Text>
+            </AppLink>
+          </Box>
         </Flex>
         <Flex
           mr={4}

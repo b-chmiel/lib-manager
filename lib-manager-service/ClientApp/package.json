@@ -40,6 +40,7 @@
     "react-scripts": "4.0.3",
     "react-table": "^7.6.3",
     "recharts": "^2.0.9",
+    "start-server-and-test": "^1.12.5",
     "typescript": "^3.9.5",
     "uuid": "^8.3.2",
     "web-vitals": "^0.2.2"
@@ -48,7 +49,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cy:run": "set NODE_ENV=development& cypress run",
+    "cy:verify": "set NODE_ENV=development& cypress verify",
+    "cy:open": "set NODE_ENV=development& cypress open",
+    "e2e": "start-server-and-test start http://localhost:3000 cy:run"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -68,6 +73,7 @@
   "devDependencies": {
     "@types/react-router-dom": "^5.1.7",
     "@types/react-table": "^7.0.29",
+    "cypress": "^7.4.0",
     "prettier": "^2.2.1"
   },
   "husky": {

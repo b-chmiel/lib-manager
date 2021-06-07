@@ -29,3 +29,10 @@ export function editBook(book: Book): Promise<string> {
     .then((response) => response.data)
     .catch((error) => Promise.reject(error.response.data));
 }
+
+export function getBook(bookId: number): Promise<Book> {
+  return axios
+    .get(ApiRoutes.GET_BOOK.replace(":bookId", bookId.toString()))
+    .then((response) => response.data)
+    .catch((error) => Promise.reject(error.response.data));
+}

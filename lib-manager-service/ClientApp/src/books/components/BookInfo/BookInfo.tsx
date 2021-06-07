@@ -7,10 +7,10 @@ import {
   StatNumber,
   Text,
 } from "@chakra-ui/react";
+import { getYear } from "date-fns";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Card } from "../../../common/components/Card";
-import { getYearFromDate } from "../../../common/helpers/getYearFromDate";
 import { Book } from "../../state/books/book.types";
 
 interface Props {
@@ -19,6 +19,11 @@ interface Props {
 
 export const BookInfo: React.FC<Props> = ({ book }) => {
   const { t } = useTranslation();
+
+  const publicationDate =
+    book !== undefined && book.publicationDate !== undefined
+      ? getYear(new Date(book.publicationDate))
+      : "--";
 
   return (
     <Box m={8}>
@@ -34,9 +39,7 @@ export const BookInfo: React.FC<Props> = ({ book }) => {
           </Stat>
           <Stat>
             <StatLabel>{t("AddBookForm.PublicationDate")}</StatLabel>
-            <StatNumber>
-              {getYearFromDate(book?.publicationDate) ?? "--"}
-            </StatNumber>
+            <StatNumber>{publicationDate}</StatNumber>
           </Stat>
           <Stat>
             <StatLabel>{t("AddBookForm.BookLanguage")}</StatLabel>

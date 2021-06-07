@@ -14,6 +14,7 @@ export enum ApiRoutes {
   DELETE_BOOK = "/api/book/delete",
   PUT_BOOK = "/api/book/edit",
   POST_BOOK = "/api/book/add",
+  GET_BOOK = "/api/book/:bookId",
   CREATE_RESERVATION = "/api/reservation/creater",
   DELETE_RESERVATION = "/api/reservation/closer",
   GET_RESERVATIONS = "/api/reservation/getuserreserves",

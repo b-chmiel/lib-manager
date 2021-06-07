@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BookFormData } from "../../components/BookForm/BookForm.types";
 import { transformToBook } from "./books.helpers";
-import { deleteBook, editBook, getBooks, postBook } from "./booksApi";
+import { deleteBook, editBook, getBook, getBooks, postBook } from "./booksApi";
 
 export const getBooksAsync = createAsyncThunk(
   "books/get-books",
@@ -21,4 +21,9 @@ export const deleteBookAsync = createAsyncThunk(
 export const editBookAsync = createAsyncThunk(
   "books/edit-book",
   async (formData: BookFormData) => await editBook(transformToBook(formData))
+);
+
+export const getBookAsync = createAsyncThunk(
+  "books/get-book",
+  async (bookId: number) => await getBook(bookId)
 );

@@ -4,6 +4,7 @@ import { Book } from "./book.types";
 import {
   deleteBookAsync,
   editBookAsync,
+  getBookAsync,
   getBooksAsync,
   postBookAsync,
 } from "./bookThunks";
@@ -13,6 +14,11 @@ export interface BookState {
     status: RequestStatus;
     error: string | undefined;
     books: Book[];
+  };
+  getBook: {
+    status: RequestStatus;
+    error: string | undefined;
+    book: Book;
   };
   postBook: {
     status: RequestStatus;
@@ -33,6 +39,11 @@ const initialState: BookState = {
     status: RequestStatus.INIT,
     error: "",
     books: [],
+  },
+  getBook: {
+    status: RequestStatus.INIT,
+    error: "",
+    book: {} as Book,
   },
   postBook: {
     status: RequestStatus.INIT,
@@ -96,6 +107,17 @@ export const booksSlice = createSlice({
       .addCase(editBookAsync.rejected, (state, action) => {
         state.editBook.status = RequestStatus.FAILED;
         state.editBook.error = action.error.message;
+      })
+      .addCase(getBookAsync.pending, (state) => {
+        state.getBook.status = RequestStatus.LOADING;
+      })
+      .addCase(getBookAsync.fulfilled, (state, action) => {
+        state.getBook.status = RequestStatus.SUCCESS;
+        state.getBook.book = action.payload;
+      })
+      .addCase(getBookAsync.rejected, (state, action) => {
+        state.getBook.status = RequestStatus.FAILED;
+        state.getBook.error = action.error.message;
       });
   },
 });

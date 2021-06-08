@@ -48,17 +48,19 @@ namespace lib_manager
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
             services.AddSwaggerGen();
+
+            var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
             services.AddDbContext<UserContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("UserDatabase"));
+                options.UseNpgsql(connectionString);
             });
             services.AddDbContext<BookContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("UserDatabase"));
+                options.UseNpgsql(connectionString);
             });
             services.AddDbContext<ReservationContext>(options =>
             {
-                options.UseNpgsql(Configuration.GetConnectionString("UserDatabase"));
+                options.UseNpgsql(connectionString);
             });
         }
 
